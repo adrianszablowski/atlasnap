@@ -1,9 +1,9 @@
 import { fixupPluginRules } from '@eslint/compat';
-import { defineConfig } from 'eslint/config';
 import expoConfig from 'eslint-config-expo/flat.js';
 import lodashPlugin from 'eslint-plugin-lodash';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactNativePlugin from 'eslint-plugin-react-native';
+import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
 	expoConfig,
@@ -28,7 +28,7 @@ export default defineConfig([
 	},
 	{
 		plugins: {
-			lodash: lodashPlugin,
+			lodash: fixupPluginRules(lodashPlugin),
 			'react-native': fixupPluginRules(reactNativePlugin),
 		},
 		rules: {

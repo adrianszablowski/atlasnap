@@ -2,12 +2,12 @@ import { useTheme } from '@/theme/use-theme';
 import { Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function Index() {
+export default function FriendsScreen() {
 	const theme = useTheme();
 
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background0 }}>
-			<Text>Here will be onboarding screen</Text>
+		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background0 }} edges={['top']}>
+			<Text>Friends</Text>
 		</SafeAreaView>
 	);
 }

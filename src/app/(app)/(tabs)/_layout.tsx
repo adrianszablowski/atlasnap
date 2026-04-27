@@ -19,17 +19,13 @@ export default function TabsLayout() {
 				<NativeTabs.Trigger.Icon sf={{ default: 'map', selected: 'map.fill' }} md='map' />
 				<NativeTabs.Trigger.Label>Atlas</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name='workout-plans'>
-				<NativeTabs.Trigger.Icon sf={{ default: 'list.clipboard', selected: 'list.clipboard.fill' }} md='assignment' />
-				<NativeTabs.Trigger.Label>Plans</NativeTabs.Trigger.Label>
+			<NativeTabs.Trigger name='trips'>
+				<NativeTabs.Trigger.Icon sf={{ default: 'suitcase', selected: 'suitcase.fill' }} md='luggage' />
+				<NativeTabs.Trigger.Label>Trips</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name='workouts'>
-				<NativeTabs.Trigger.Icon sf={{ default: 'dumbbell', selected: 'dumbbell.fill' }} md='fitness_center' />
-				<NativeTabs.Trigger.Label>Workouts</NativeTabs.Trigger.Label>
-			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name='measurements'>
-				<NativeTabs.Trigger.Icon sf={{ default: 'ruler', selected: 'ruler.fill' }} md='straighten' />
-				<NativeTabs.Trigger.Label>Measurements</NativeTabs.Trigger.Label>
+			<NativeTabs.Trigger name='friends'>
+				<NativeTabs.Trigger.Icon sf={{ default: 'person.2', selected: 'person.2.fill' }} md='people' />
+				<NativeTabs.Trigger.Label>Friends</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
 			<NativeTabs.Trigger name='more'>
 				<NativeTabs.Trigger.Icon sf='ellipsis' md='more_vert' />

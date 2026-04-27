@@ -3,6 +3,8 @@ import { ConfigContext, ExpoConfig } from 'expo/config';
 const IS_DEV = process.env.APP_VARIANT === 'development';
 const IS_PREVIEW = process.env.APP_VARIANT === 'preview';
 
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
+
 const getUniqueIdentifier = () => {
 	if (IS_DEV) return 'com.adrianszablowski.atlasnap.dev';
 
@@ -108,6 +110,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 					enableProguardInReleaseBuilds: true,
 					extraProguardRules: '-keep class com.facebook.** { *; }',
 				},
+			},
+		],
+		[
+			'react-native-maps',
+			{
+				iosGoogleMapsApiKey: GOOGLE_MAPS_API_KEY,
 			},
 		],
 	],

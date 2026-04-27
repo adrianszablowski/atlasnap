@@ -44,3 +44,6 @@ app-example
 
 # Cursor
 .cursor/
+
+# Documentation
+DOCS.md
