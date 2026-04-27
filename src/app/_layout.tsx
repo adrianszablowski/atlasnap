@@ -52,6 +52,7 @@ export default function RootLayout() {
 		<QueryClientProvider client={queryClient}>
 			<AtlasnapThemeProvider>
 				<Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background0 } }}>
+					<Stack.Screen name='index' />
 					<Stack.Screen name='(auth)' />
 					<Stack.Screen name='(app)' />
 					<Stack.Screen name='+not-found' />

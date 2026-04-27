@@ -6,7 +6,7 @@ export default function Index() {
 
 	return (
 		<View style={{ flex: 1, backgroundColor: theme.background0 }}>
-			<Text>Edit src/app/index.tsx to edit this screen.</Text>
+			<Text>Here will be onboarding screen</Text>
 		</View>
 	);
 }
