@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+ios/
+android/
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+# Env / secrets
+.env
+.env.*
+!.env.template
+
+# Build / cache
+*.tsbuildinfo
+.metro-health-check*
+
+# Logs / debug
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
