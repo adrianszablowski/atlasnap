@@ -16,8 +16,8 @@ export default function TabsLayout() {
 	return (
 		<NativeTabs labelStyle={labelSelectedStyle} iconColor={iconColor} tintColor={tintColor}>
 			<NativeTabs.Trigger name='index'>
-				<NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} md='home' />
-				<NativeTabs.Trigger.Label>Dashboard</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon sf={{ default: 'map', selected: 'map.fill' }} md='map' />
+				<NativeTabs.Trigger.Label>Atlas</NativeTabs.Trigger.Label>
 			</NativeTabs.Trigger>
 			<NativeTabs.Trigger name='workout-plans'>
 				<NativeTabs.Trigger.Icon sf={{ default: 'list.clipboard', selected: 'list.clipboard.fill' }} md='assignment' />
