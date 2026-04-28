@@ -13,7 +13,7 @@ export default function PaywallScreen() {
 	};
 
 	return (
-		<View style={{ flex: 1, backgroundColor: theme.background0 }}>
+		<View style={{ flex: 1, backgroundColor: theme.background100 }}>
 			<RevenueCatUI.Paywall
 				onPurchaseCompleted={handleSubscriptionComplete}
 				onRestoreCompleted={handleSubscriptionComplete}

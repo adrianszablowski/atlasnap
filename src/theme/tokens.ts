@@ -107,6 +107,10 @@ export const themeTokens = {
 	background800: '#5E5042',
 	background900: '#302A24',
 
+	/** Card */
+	cardBackground: '#FFFFFF',
+	cardBorder: '#E0D6C8',
+
 	/** Special */
 	specialOcean: '#2F80ED',
 	specialSky: '#57C7FF',

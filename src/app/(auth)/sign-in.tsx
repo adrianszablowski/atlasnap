@@ -6,7 +6,7 @@ export default function SignInPage() {
 	const theme = useTheme();
 
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background0 }}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background100 }}>
 			<Text>Sign In</Text>
 		</SafeAreaView>
 	);

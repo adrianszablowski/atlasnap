@@ -7,7 +7,7 @@ export default function PreviewTripScreen() {
 	const { tripId } = useLocalSearchParams();
 
 	return (
-		<View style={{ flex: 1, backgroundColor: theme.background0 }}>
+		<View style={{ flex: 1, backgroundColor: theme.background100 }}>
 			<Text>Preview Trip {tripId}</Text>
 		</View>
 	);

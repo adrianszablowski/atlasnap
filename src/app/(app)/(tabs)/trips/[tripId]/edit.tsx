@@ -7,7 +7,7 @@ export default function EditTripScreen() {
 	const { tripId } = useLocalSearchParams();
 
 	return (
-		<View style={{ flex: 1, backgroundColor: theme.background0 }}>
+		<View style={{ flex: 1, backgroundColor: theme.background100 }}>
 			<Text>Edit Trip {tripId}</Text>
 		</View>
 	);

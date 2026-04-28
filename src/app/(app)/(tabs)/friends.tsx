@@ -6,7 +6,7 @@ export default function FriendsScreen() {
 	const theme = useTheme();
 
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background0 }} edges={['top']}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background100 }} edges={['top']}>
 			<Text>Friends</Text>
 		</SafeAreaView>
 	);

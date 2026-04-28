@@ -5,7 +5,7 @@ export default function CreateTripScreen() {
 	const theme = useTheme();
 
 	return (
-		<View style={{ flex: 1, backgroundColor: theme.background0 }}>
+		<View style={{ flex: 1, backgroundColor: theme.background100 }}>
 			<Text>Create Trip</Text>
 		</View>
 	);

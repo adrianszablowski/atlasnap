@@ -7,7 +7,7 @@ export default function MoreScreen() {
 	const theme = useTheme();
 
 	return (
-		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background0 }} edges={['top']}>
+		<SafeAreaView style={{ flex: 1, backgroundColor: theme.background100 }} edges={['top']}>
 			<Text>More Screen</Text>
 		</SafeAreaView>
 	);

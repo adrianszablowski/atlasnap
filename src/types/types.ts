@@ -1,3 +1,6 @@
+import { Button } from '@expo/ui/swift-ui';
+import type { ComponentProps } from 'react';
+
 export type Maybe<T> = T | null | undefined;
 
 export interface Response<T> {
@@ -6,6 +9,8 @@ export interface Response<T> {
 	data?: T;
 	errorReason?: AuthErrorReason;
 }
+
+export type SfSystemImageIcon = NonNullable<ComponentProps<typeof Button>['systemImage']>;
 
 export type AuthErrorReason = 'email_taken' | 'weak_password';
 

@@ -32,8 +32,25 @@ SplashScreen.setOptions({
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+function ThemedStack() {
 	const theme = useTheme();
+
+	return (
+		<Stack
+			screenOptions={{
+				headerShown: false,
+				contentStyle: { backgroundColor: theme.background100 },
+			}}
+		>
+			<Stack.Screen name='index' />
+			<Stack.Screen name='(auth)' />
+			<Stack.Screen name='(app)' />
+			<Stack.Screen name='+not-found' />
+		</Stack>
+	);
+}
+
+export default function RootLayout() {
 	const [loaded, error] = useFonts({
 		SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
 	});
@@ -51,12 +68,7 @@ export default function RootLayout() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<AtlasnapThemeProvider>
-				<Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: theme.background0 } }}>
-					<Stack.Screen name='index' />
-					<Stack.Screen name='(auth)' />
-					<Stack.Screen name='(app)' />
-					<Stack.Screen name='+not-found' />
-				</Stack>
+				<ThemedStack />
 			</AtlasnapThemeProvider>
 		</QueryClientProvider>
 	);
