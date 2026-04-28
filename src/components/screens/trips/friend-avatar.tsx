@@ -1,14 +1,17 @@
-import type { MockFriend } from '@/constants/mock-trips';
+import type { TripParticipant } from '@/types/trip';
+import { useTheme } from '@/theme/use-theme';
 import { StyleSheet, Text, View } from 'react-native';
 
 interface FriendAvatarProps {
-	friend: MockFriend;
+	friend: TripParticipant;
 	size?: number;
 	stackOffset?: number;
 }
 
 export function FriendAvatar({ friend, size = 30, stackOffset = 0 }: Readonly<FriendAvatarProps>) {
+	const theme = useTheme();
 	const fontSize = Math.round(size * 0.34);
+
 	return (
 		<View
 			style={[
@@ -18,11 +21,13 @@ export function FriendAvatar({ friend, size = 30, stackOffset = 0 }: Readonly<Fr
 					height: size,
 					borderRadius: size / 2,
 					backgroundColor: friend.color,
+					borderColor: theme.background0,
 					marginLeft: stackOffset,
+					opacity: friend.status === 'pending' ? 0.55 : 1,
 				},
 			]}
 		>
-			<Text style={[styles.initials, { fontSize }]}>{friend.initials}</Text>
+			<Text style={[styles.initials, { fontSize, color: theme.background0 }]}>{friend.initials}</Text>
 		</View>
 	);
 }
@@ -32,10 +37,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderWidth: 2.5,
-		borderColor: '#FFFFFF',
 	},
 	initials: {
-		color: '#FFFFFF',
 		fontWeight: '700',
 		letterSpacing: 0.2,
 	},

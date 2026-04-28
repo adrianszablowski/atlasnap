@@ -1,3 +1,4 @@
+import { lightTheme } from '@/theme/light-theme';
 import { isLiquidGlassAvailable } from 'expo-glass-effect';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { DynamicColorIOS, Platform } from 'react-native';
@@ -6,11 +7,18 @@ const isIos = Platform.OS === 'ios';
 
 const liquidGlass = isIos && isLiquidGlassAvailable();
 
-const labelSelectedStyle = isIos ? { color: DynamicColorIOS({ light: '#000000', dark: '#ffffff' }) } : undefined;
+const labelSelectedStyle = isIos
+	? { color: DynamicColorIOS({ light: lightTheme.typography950, dark: lightTheme.background0 }) }
+	: undefined;
 
-const iconColor = isIos && liquidGlass ? DynamicColorIOS({ light: '#000000', dark: '#ffffff' }) : '#9a9ea5';
+const iconColor =
+	isIos && liquidGlass
+		? DynamicColorIOS({ light: lightTheme.typography950, dark: lightTheme.background0 })
+		: lightTheme.typography400;
 
-const tintColor = isIos ? DynamicColorIOS({ light: '#000000', dark: '#ffffff' }) : '#EDEFF2';
+const tintColor = isIos
+	? DynamicColorIOS({ light: lightTheme.typography950, dark: lightTheme.background0 })
+	: lightTheme.typography100;
 
 export default function TabsLayout() {
 	return (

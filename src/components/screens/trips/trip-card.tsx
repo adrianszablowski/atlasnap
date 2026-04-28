@@ -1,115 +1,113 @@
-import { formatTripDateRange, type MockTrip } from '@/constants/mock-trips';
+import { TripImage } from '@/components/screens/trips/trip-image';
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
+import type { MockTrip } from '@/types/trip';
+import { formatDateRange, formatDurationDaysLabel } from '@/utils/date-range';
 import { Button, ContextMenu, Host } from '@expo/ui/swift-ui';
-import { differenceInDays, parseISO } from 'date-fns';
 import { useRouter } from 'expo-router';
+import filter from 'lodash/filter';
+import head from 'lodash/head';
 import map from 'lodash/map';
 import slice from 'lodash/slice';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { FriendAvatar } from './friend-avatar';
 
 interface TripCardProps {
 	trip: MockTrip;
 }
 
-function getDurationLabel(startDate: string, endDate?: string): string {
-	if (!endDate) return '1 day';
-	const days = differenceInDays(parseISO(endDate), parseISO(startDate)) + 1;
-	return `${days} ${days === 1 ? 'day' : 'days'}`;
-}
-
 export function TripCard({ trip }: Readonly<TripCardProps>) {
 	const theme = useTheme();
 	const router = useRouter();
-	const durationLabel = getDurationLabel(trip.startDate, trip.endDate);
-	const friendCount = trip.friends.length;
 
-	const friendsLabel =
-		friendCount === 0 ? 'Solo adventure' : friendCount === 1 ? 'With 1 friend' : `With ${friendCount} friends`;
+	const durationLabel = formatDurationDaysLabel(trip.startDate, trip.endDate);
+	const displayParticipants = filter(trip.participants, { status: 'confirmed' });
+	const participantCount = displayParticipants.length;
 
-	function handlePress() {
-		router.push(`/trips/${trip.id}/details`);
-	}
+	const participantsLabel =
+		participantCount === 0
+			? 'Solo adventure'
+			: participantCount === 1
+				? 'With 1 friend'
+				: `With ${participantCount} friends`;
 
-	function handleEdit() {
-		router.push(`/trips/${trip.id}/edit`);
-	}
-
-	const cardContent = (
-		<Pressable
-			onPress={handlePress}
-			style={({ pressed }) => [
-				styles.card,
-				{
-					backgroundColor: theme.cardBackground,
-					borderColor: theme.cardBorder,
-					shadowColor: theme.typography900,
-					opacity: pressed ? 0.97 : 1,
-				},
-			]}
-		>
-			<View style={[styles.cover, { backgroundColor: trip.coverColor }]}>
-				<View style={[styles.emojiGlow, { backgroundColor: hexToRgba(theme.background0, 0.1) }]} />
-				<Text style={styles.coverEmoji}>{trip.coverEmoji}</Text>
-
-				<View style={[styles.durationBadge, { backgroundColor: hexToRgba(theme.background0, 0.93) }]}>
-					<Text style={[styles.durationText, { color: theme.typography800 }]}>{durationLabel}</Text>
-				</View>
-
-				<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.typography950, 0.34) }]}>
-					<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>📷 {trip.photoCount}</Text>
-				</View>
-
-				<View style={[styles.locationPill, { backgroundColor: hexToRgba(theme.background0, 0.95) }]}>
-					<Text style={[styles.locationPillText, { color: theme.typography900 }]}>
-						{trip.flag} {trip.city}, {trip.country}
-					</Text>
-				</View>
-			</View>
-
-			<View style={styles.body}>
-				<Text style={[styles.title, { color: theme.typography900 }]} numberOfLines={1}>
-					{trip.title}
-				</Text>
-				<Text style={[styles.date, { color: theme.typography400 }]}>
-					{formatTripDateRange(trip.startDate, trip.endDate)}
-				</Text>
-				<View style={[styles.separator, { backgroundColor: theme.background200 }]} />
-				<View style={styles.friendsRow}>
-					{friendCount > 0 && (
-						<View style={styles.avatarStack}>
-							{map(slice(trip.friends, 0, 3), (friend, index) => (
-								<FriendAvatar key={friend.id} friend={friend} size={28} stackOffset={index === 0 ? 0 : -10} />
-							))}
-							{friendCount > 3 && (
-								<View
-									style={[
-										styles.overflowBadge,
-										{ backgroundColor: theme.outline100, borderColor: theme.cardBackground, marginLeft: -10 },
-									]}
-								>
-									<Text style={[styles.overflowText, { color: theme.outline700 }]}>+{friendCount - 3}</Text>
-								</View>
-							)}
-						</View>
-					)}
-					<Text style={[styles.friendsLabel, { color: friendCount > 0 ? theme.typography600 : theme.outline400 }]}>
-						{friendsLabel}
-					</Text>
-				</View>
-			</View>
-		</Pressable>
-	);
-
-	if (Platform.OS !== 'ios') return cardContent;
+	const coverUrl = trip.coverPhoto?.url ?? head(trip.photos)?.url;
 
 	return (
 		<Host matchContents>
 			<ContextMenu>
-				<ContextMenu.Trigger>{cardContent}</ContextMenu.Trigger>
+				<ContextMenu.Trigger>
+					<Pressable
+						onPress={() => router.push(`/trips/${trip.id}/details`)}
+						style={({ pressed }) => [
+							styles.card,
+							{
+								backgroundColor: theme.cardBackground,
+								borderColor: theme.cardBorder,
+								shadowColor: theme.typography900,
+								opacity: pressed ? 0.97 : 1,
+							},
+						]}
+					>
+						<View style={styles.cover}>
+							<TripImage photoUrl={coverUrl} style={StyleSheet.absoluteFill} />
+							<View style={[styles.durationBadge, { backgroundColor: hexToRgba(theme.background0, 0.93) }]}>
+								<Text style={[styles.durationText, { color: theme.typography800 }]}>{durationLabel}</Text>
+							</View>
+							<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.typography950, 0.34) }]}>
+								<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>📷 {trip.photoCount}</Text>
+							</View>
+							<View style={[styles.locationPill, { backgroundColor: hexToRgba(theme.background0, 0.95) }]}>
+								<Text style={[styles.locationPillText, { color: theme.typography900 }]}>
+									{trip.flag} {trip.city}, {trip.country}
+								</Text>
+							</View>
+						</View>
+						<View style={styles.body}>
+							<Text style={[styles.title, { color: theme.typography900 }]} numberOfLines={1}>
+								{trip.title}
+							</Text>
+							<Text style={[styles.date, { color: theme.typography400 }]}>
+								{formatDateRange(trip.startDate, trip.endDate)}
+							</Text>
+							<View style={[styles.separator, { backgroundColor: theme.background200 }]} />
+							<View style={styles.participantsRow}>
+								{participantCount > 0 && (
+									<View style={styles.avatarStack}>
+										{map(slice(displayParticipants, 0, 3), (participant, index) => (
+											<FriendAvatar
+												key={participant.id}
+												friend={participant}
+												size={28}
+												stackOffset={index === 0 ? 0 : -10}
+											/>
+										))}
+										{participantCount > 3 && (
+											<View
+												style={[
+													styles.overflowBadge,
+													{ backgroundColor: theme.outline100, borderColor: theme.cardBackground, marginLeft: -10 },
+												]}
+											>
+												<Text style={[styles.overflowText, { color: theme.outline700 }]}>+{participantCount - 3}</Text>
+											</View>
+										)}
+									</View>
+								)}
+								<Text
+									style={[
+										styles.participantsLabel,
+										{ color: participantCount > 0 ? theme.typography600 : theme.outline400 },
+									]}
+								>
+									{participantsLabel}
+								</Text>
+							</View>
+						</View>
+					</Pressable>
+				</ContextMenu.Trigger>
 				<ContextMenu.Items>
-					<Button label='Edit Trip' systemImage='pencil' onPress={handleEdit} />
+					<Button label='Edit Trip' systemImage='pencil' onPress={() => router.push(`/trips/${trip.id}/edit`)} />
 					<Button role='destructive' label='Delete Trip' systemImage='trash' onPress={() => {}} />
 				</ContextMenu.Items>
 			</ContextMenu>
@@ -129,17 +127,7 @@ const styles = StyleSheet.create({
 	},
 	cover: {
 		height: 200,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	emojiGlow: {
-		position: 'absolute',
-		width: 128,
-		height: 128,
-		borderRadius: 64,
-	},
-	coverEmoji: {
-		fontSize: 88,
+		overflow: 'hidden',
 	},
 	durationBadge: {
 		position: 'absolute',
@@ -198,7 +186,7 @@ const styles = StyleSheet.create({
 		borderRadius: 1,
 		marginVertical: 10,
 	},
-	friendsRow: {
+	participantsRow: {
 		flexDirection: 'row',
 		alignItems: 'center',
 		gap: 10,
@@ -207,7 +195,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
-	friendsLabel: {
+	participantsLabel: {
 		fontSize: 13,
 		fontWeight: '500',
 	},

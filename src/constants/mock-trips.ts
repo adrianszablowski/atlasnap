@@ -1,42 +1,6 @@
-import { format, isSameMonth, isSameYear, parseISO } from 'date-fns';
-import flatMap from 'lodash/flatMap';
-import groupBy from 'lodash/groupBy';
-import map from 'lodash/map';
-import orderBy from 'lodash/orderBy';
-import reduce from 'lodash/reduce';
+import type { MockTrip } from '@/types/trip';
 
-export interface MockFriend {
-	id: string;
-	initials: string;
-	color: string;
-}
-
-export interface MockTrip {
-	id: string;
-	title: string;
-	city: string;
-	country: string;
-	flag: string;
-	startDate: string;
-	endDate?: string;
-	photoCount: number;
-	friends: MockFriend[];
-	coverColor: string;
-	coverEmoji: string;
-}
-
-export function formatTripDateRange(startDate: string, endDate?: string): string {
-	const start = parseISO(startDate);
-	if (!endDate) return format(start, 'MMM d, yyyy');
-	const end = parseISO(endDate);
-	if (isSameMonth(start, end) && isSameYear(start, end)) {
-		return `${format(start, 'MMM d')}–${format(end, 'd, yyyy')}`;
-	}
-	if (isSameYear(start, end)) {
-		return `${format(start, 'MMM d')} – ${format(end, 'MMM d, yyyy')}`;
-	}
-	return `${format(start, 'MMM d, yyyy')} – ${format(end, 'MMM d, yyyy')}`;
-}
+const p = (id: string, seed: string) => ({ id, url: `https://picsum.photos/seed/${seed}/800/600` });
 
 export const MOCK_TRIPS: MockTrip[] = [
 	{
@@ -48,12 +12,13 @@ export const MOCK_TRIPS: MockTrip[] = [
 		startDate: '2025-03-15',
 		endDate: '2025-03-22',
 		photoCount: 47,
-		friends: [
-			{ id: 'f1', initials: 'AK', color: '#2F80ED' },
-			{ id: 'f2', initials: 'MC', color: '#FF6B5A' },
+		note: 'The Colosseum at sunset was unbelievable. Best carbonara of my life. Spent way too long at the Forum.',
+		photos: [p('1-1', 'rome-forum'), p('1-2', 'rome-colosseum'), p('1-3', 'rome-trevi')],
+		coverPhoto: p('1-1', 'rome-forum'),
+		participants: [
+			{ id: 'f1', initials: 'AK', color: '#2F80ED', status: 'confirmed' },
+			{ id: 'f2', initials: 'MC', color: '#FF6B5A', status: 'confirmed' },
 		],
-		coverColor: '#C4725A',
-		coverEmoji: '🏛️',
 	},
 	{
 		id: '2',
@@ -64,9 +29,10 @@ export const MOCK_TRIPS: MockTrip[] = [
 		startDate: '2025-05-01',
 		endDate: '2025-05-07',
 		photoCount: 31,
-		friends: [{ id: 'f3', initials: 'JW', color: '#35C759' }],
-		coverColor: '#C9943A',
-		coverEmoji: '🌊',
+		note: 'Tram 28 through the old city. Pastéis de nata still warm from the bakery. Views from the castle were worth every step.',
+		photos: [p('2-1', 'lisbon-tram'), p('2-2', 'lisbon-alfama'), p('2-3', 'lisbon-belem')],
+		coverPhoto: p('2-1', 'lisbon-tram'),
+		participants: [{ id: 'f3', initials: 'JW', color: '#35C759', status: 'confirmed' }],
 	},
 	{
 		id: '3',
@@ -77,13 +43,14 @@ export const MOCK_TRIPS: MockTrip[] = [
 		startDate: '2024-10-10',
 		endDate: '2024-10-20',
 		photoCount: 89,
-		friends: [
-			{ id: 'f1', initials: 'AK', color: '#2F80ED' },
-			{ id: 'f4', initials: 'SL', color: '#9B6DDB' },
-			{ id: 'f5', initials: 'OP', color: '#F2A93B' },
+		note: 'Shibuya at 2am will never leave my mind. Tsukiji breakfast. Could have stayed forever.',
+		photos: [p('3-1', 'tokyo-shibuya'), p('3-2', 'tokyo-temple'), p('3-3', 'tokyo-night'), p('3-4', 'tokyo-street')],
+		coverPhoto: p('3-1', 'tokyo-shibuya'),
+		participants: [
+			{ id: 'f1', initials: 'AK', color: '#2F80ED', status: 'confirmed' },
+			{ id: 'f4', initials: 'SL', color: '#9B6DDB', status: 'confirmed' },
+			{ id: 'f5', initials: 'OP', color: '#F2A93B', status: 'confirmed' },
 		],
-		coverColor: '#3B6EA8',
-		coverEmoji: '⛩️',
 	},
 	{
 		id: '4',
@@ -94,9 +61,10 @@ export const MOCK_TRIPS: MockTrip[] = [
 		startDate: '2025-01-10',
 		endDate: '2025-01-12',
 		photoCount: 23,
-		friends: [],
-		coverColor: '#B8672C',
-		coverEmoji: '🏖️',
+		note: 'Gaudí changed how I see architecture forever. Beach day after Sagrada Família.',
+		photos: [p('4-1', 'barcelona-sagrada'), p('4-2', 'barcelona-beach')],
+		coverPhoto: p('4-1', 'barcelona-sagrada'),
+		participants: [],
 	},
 	{
 		id: '5',
@@ -107,34 +75,12 @@ export const MOCK_TRIPS: MockTrip[] = [
 		startDate: '2024-12-20',
 		endDate: '2024-12-27',
 		photoCount: 62,
-		friends: [
-			{ id: 'f2', initials: 'MC', color: '#FF6B5A' },
-			{ id: 'f3', initials: 'JW', color: '#35C759' },
+		note: 'First snow in Central Park. Walked the Brooklyn Bridge in the cold. Pizza is better here.',
+		photos: [p('5-1', 'nyc-central-park'), p('5-2', 'nyc-brooklyn'), p('5-3', 'nyc-times-square')],
+		coverPhoto: p('5-1', 'nyc-central-park'),
+		participants: [
+			{ id: 'f2', initials: 'MC', color: '#FF6B5A', status: 'confirmed' },
+			{ id: 'f3', initials: 'JW', color: '#35C759', status: 'confirmed' },
 		],
-		coverColor: '#4A78A4',
-		coverEmoji: '🗽',
 	},
 ];
-
-export interface TripSection {
-	title: string;
-	data: MockTrip[];
-}
-
-export function groupTripsByYear(trips: MockTrip[]): TripSection[] {
-	const grouped = groupBy(trips, (trip) => parseISO(trip.startDate).getFullYear().toString());
-	const sections = map(Object.entries(grouped), ([year, data]) => ({ title: year, data }));
-	return orderBy(sections, 'title', 'desc');
-}
-
-export function getMockStats(trips: MockTrip[]) {
-	const countries = new Set(map(trips, 'country'));
-	const totalPhotos = reduce(trips, (sum, t) => sum + t.photoCount, 0);
-	const allFriendIds = new Set(flatMap(trips, 'friends.id'));
-	return {
-		tripCount: trips.length,
-		countryCount: countries.size,
-		photoCount: totalPhotos,
-		friendCount: allFriendIds.size,
-	};
-}

@@ -2,8 +2,10 @@ import { TripCard } from '@/components/screens/trips/trip-card';
 import { TripsEmptyState } from '@/components/screens/trips/trips-empty-state';
 import { TripsScreenHeader } from '@/components/screens/trips/trips-screen-header';
 import { TripsYearHeader } from '@/components/screens/trips/trips-year-header';
-import { getMockStats, groupTripsByYear, MOCK_TRIPS, type MockTrip } from '@/constants/mock-trips';
+import { MOCK_TRIPS } from '@/constants/mock-trips';
 import { useTheme } from '@/theme/use-theme';
+import type { MockTrip } from '@/types/trip';
+import { getMockStats, groupTripsByYear } from '@/utils/trips';
 import { SectionList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
