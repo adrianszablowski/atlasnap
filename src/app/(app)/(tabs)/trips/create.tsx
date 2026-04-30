@@ -1,12 +1,19 @@
 import { useTheme } from '@/theme/use-theme';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CreateTripScreen() {
 	const theme = useTheme();
 
 	return (
-		<View style={{ flex: 1, backgroundColor: theme.background100 }}>
+		<SafeAreaView style={[styles.root, { backgroundColor: theme.background100 }]} edges={['top']}>
 			<Text>Create Trip</Text>
-		</View>
+		</SafeAreaView>
 	);
 }
+
+const styles = StyleSheet.create({
+	root: {
+		flex: 1,
+	},
+});

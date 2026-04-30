@@ -48,6 +48,16 @@ export default function TripDetailsScreen() {
 		setActiveSlide(index);
 	}
 
+	const handleEditTrip = () => {
+		router.dismissAll();
+		router.push(`/trips/${trip.id}/edit`);
+	};
+
+	const handleAddMoreMemories = () => {
+		router.dismissAll();
+		router.push('/trips/create');
+	};
+
 	return (
 		<View style={[styles.root, { backgroundColor: theme.background100 }]}>
 			<ScrollView showsVerticalScrollIndicator={false} bounces>
@@ -126,7 +136,7 @@ export default function TripDetailsScreen() {
 								styles.primaryBtn,
 								{ backgroundColor: theme.primary500, opacity: pressed ? 0.84 : 1 },
 							]}
-							onPress={() => router.push('/trips/create')}
+							onPress={handleAddMoreMemories}
 						>
 							<Text style={[styles.primaryBtnText, { color: theme.background0 }]}>Add More Memories</Text>
 						</Pressable>
@@ -135,7 +145,7 @@ export default function TripDetailsScreen() {
 								styles.secondaryBtn,
 								{ borderColor: theme.outline200, opacity: pressed ? 0.7 : 1 },
 							]}
-							onPress={() => router.push(`/trips/${trip.id}/edit`)}
+							onPress={handleEditTrip}
 						>
 							<Text style={[styles.secondaryBtnText, { color: theme.typography600 }]}>Edit Trip</Text>
 						</Pressable>
