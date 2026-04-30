@@ -9,7 +9,7 @@ import filter from 'lodash/filter';
 import head from 'lodash/head';
 import map from 'lodash/map';
 import slice from 'lodash/slice';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { FriendAvatar } from './friend-avatar';
 
 interface TripCardProps {
@@ -32,6 +32,13 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 				: `With ${participantCount} friends`;
 
 	const coverUrl = trip.coverPhoto?.url ?? head(trip.photos)?.url;
+
+	const handleDeleteTrip = () => {
+		Alert.alert('Delete Trip', 'Are you sure you want to delete this trip?', [
+			{ text: 'Cancel', style: 'cancel' },
+			{ text: 'Delete', style: 'destructive', onPress: () => {} },
+		]);
+	};
 
 	return (
 		<Host matchContents>
@@ -108,7 +115,7 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 				</ContextMenu.Trigger>
 				<ContextMenu.Items>
 					<Button label='Edit Trip' systemImage='pencil' onPress={() => router.push(`/trips/${trip.id}/edit`)} />
-					<Button role='destructive' label='Delete Trip' systemImage='trash' onPress={() => {}} />
+					<Button role='destructive' label='Delete Trip' systemImage='trash' onPress={handleDeleteTrip} />
 				</ContextMenu.Items>
 			</ContextMenu>
 		</Host>
