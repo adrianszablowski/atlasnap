@@ -68,6 +68,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	plugins: [
 		'expo-router',
 		'expo-image',
+		'expo-localization',
 		[
 			'expo-splash-screen',
 			{

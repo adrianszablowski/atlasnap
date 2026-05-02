@@ -20,9 +20,11 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 	const theme = useTheme();
 	const router = useRouter();
 
+	const isPlanned = trip.status === 'planned';
 	const durationLabel = formatDurationDaysLabel(trip.startDate, trip.endDate);
 	const displayParticipants = filter(trip.participants, { status: 'confirmed' });
 	const participantCount = displayParticipants.length;
+	const timelineCount = trip.timelineItems?.length ?? 0;
 
 	const participantsLabel =
 		participantCount === 0
@@ -50,7 +52,7 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 							styles.card,
 							{
 								backgroundColor: theme.cardBackground,
-								borderColor: theme.cardBorder,
+								borderColor: isPlanned ? theme.primary200 : theme.cardBorder,
 								shadowColor: theme.typography900,
 								opacity: pressed ? 0.97 : 1,
 							},
@@ -58,12 +60,29 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 					>
 						<View style={styles.cover}>
 							<TripImage photoUrl={coverUrl} style={StyleSheet.absoluteFill} />
+							{isPlanned && !coverUrl && (
+								<View
+									style={[
+										StyleSheet.absoluteFill,
+										styles.plannedCoverOverlay,
+										{ backgroundColor: hexToRgba(theme.primary500, 0.08) },
+									]}
+								/>
+							)}
 							<View style={[styles.durationBadge, { backgroundColor: hexToRgba(theme.background0, 0.93) }]}>
 								<Text style={[styles.durationText, { color: theme.typography800 }]}>{durationLabel}</Text>
 							</View>
-							<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.typography950, 0.34) }]}>
-								<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>📷 {trip.photoCount}</Text>
-							</View>
+							{isPlanned ? (
+								<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.primary500, 0.88) }]}>
+									<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>
+										{timelineCount > 0 ? `📋 ${timelineCount}` : '🗓️ Planning'}
+									</Text>
+								</View>
+							) : (
+								<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.typography950, 0.34) }]}>
+									<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>📷 {trip.photoCount}</Text>
+								</View>
+							)}
 							<View style={[styles.locationPill, { backgroundColor: hexToRgba(theme.background0, 0.95) }]}>
 								<Text style={[styles.locationPillText, { color: theme.typography900 }]}>
 									{trip.flag} {trip.city}, {trip.country}
@@ -71,9 +90,24 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 							</View>
 						</View>
 						<View style={styles.body}>
-							<Text style={[styles.title, { color: theme.typography900 }]} numberOfLines={1}>
-								{trip.title}
-							</Text>
+							<View style={styles.titleRow}>
+								<Text style={[styles.title, { color: theme.typography900 }]} numberOfLines={1}>
+									{trip.title}
+								</Text>
+								<View
+									style={[
+										styles.statusBadge,
+										{
+											backgroundColor: isPlanned ? theme.primary50 : theme.success50,
+											borderColor: isPlanned ? theme.primary200 : theme.success200,
+										},
+									]}
+								>
+									<Text style={[styles.statusText, { color: isPlanned ? theme.primary700 : theme.success700 }]}>
+										{isPlanned ? '✈️ Planning' : '📍 Saved'}
+									</Text>
+								</View>
+							</View>
 							<Text style={[styles.date, { color: theme.typography400 }]}>
 								{formatDateRange(trip.startDate, trip.endDate)}
 							</Text>
@@ -136,6 +170,9 @@ const styles = StyleSheet.create({
 		height: 200,
 		overflow: 'hidden',
 	},
+	plannedCoverOverlay: {
+		zIndex: 1,
+	},
 	durationBadge: {
 		position: 'absolute',
 		top: 14,
@@ -143,6 +180,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		paddingVertical: 5,
 		borderRadius: 10,
+		zIndex: 2,
 	},
 	durationText: {
 		fontSize: 12,
@@ -155,6 +193,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10,
 		paddingVertical: 5,
 		borderRadius: 10,
+		zIndex: 2,
 	},
 	photoBadgeText: {
 		fontSize: 12,
@@ -167,6 +206,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		paddingVertical: 7,
 		borderRadius: 20,
+		zIndex: 2,
 	},
 	locationPillText: {
 		fontSize: 13,
@@ -178,11 +218,30 @@ const styles = StyleSheet.create({
 		paddingBottom: 20,
 		gap: 4,
 	},
+	titleRow: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		gap: 8,
+	},
 	title: {
+		flex: 1,
 		fontSize: 22,
 		fontWeight: '800',
 		letterSpacing: -0.5,
 		lineHeight: 28,
+	},
+	statusBadge: {
+		paddingHorizontal: 8,
+		paddingVertical: 4,
+		borderRadius: 8,
+		borderWidth: 1,
+		flexShrink: 0,
+	},
+	statusText: {
+		fontSize: 11,
+		fontWeight: '700',
+		letterSpacing: 0.1,
 	},
 	date: {
 		fontSize: 13,

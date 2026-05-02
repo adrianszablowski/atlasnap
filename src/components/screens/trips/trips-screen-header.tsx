@@ -5,18 +5,28 @@ import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 interface TripsScreenHeaderProps {
-	tripCount: number;
+	savedCount: number;
+	plannedCount: number;
 	countryCount: number;
 	photoCount: number;
 }
 
-export function TripsScreenHeader({ tripCount, countryCount, photoCount }: Readonly<TripsScreenHeaderProps>) {
+export function TripsScreenHeader({
+	savedCount,
+	plannedCount,
+	countryCount,
+	photoCount,
+}: Readonly<TripsScreenHeaderProps>) {
 	const router = useRouter();
 
+	const totalCount = savedCount + plannedCount;
+
 	const description =
-		tripCount === 0
+		totalCount === 0
 			? 'Start building your personal travel atlas'
-			: `${tripCount} ${tripCount === 1 ? 'adventure' : 'adventures'} · ${countryCount} ${countryCount === 1 ? 'country' : 'countries'}`;
+			: plannedCount > 0
+				? `${savedCount} saved · ${plannedCount} upcoming · ${countryCount} ${countryCount === 1 ? 'country' : 'countries'}`
+				: `${totalCount} ${totalCount === 1 ? 'adventure' : 'adventures'} · ${countryCount} ${countryCount === 1 ? 'country' : 'countries'}`;
 
 	return (
 		<PageHeader
@@ -26,13 +36,23 @@ export function TripsScreenHeader({ tripCount, countryCount, photoCount }: Reado
 				<IconButton label='Add Trip' icon='plus' variant='prominent' onPress={() => router.push('/trips/create')} />
 			}
 		>
-			{tripCount > 0 ? (
+			{totalCount > 0 && (
 				<View style={styles.statsRow}>
-					<TripsStatCard emoji='✈️' value={tripCount} label={tripCount === 1 ? 'Trip' : 'Trips'} />
-					<TripsStatCard emoji='🌍' value={countryCount} label={countryCount === 1 ? 'Country' : 'Countries'} />
-					<TripsStatCard emoji='📷' value={photoCount} label='Photos' />
+					{plannedCount > 0 ? (
+						<>
+							<TripsStatCard emoji='📍' value={savedCount} label={savedCount === 1 ? 'Saved' : 'Saved'} />
+							<TripsStatCard emoji='✈️' value={plannedCount} label={plannedCount === 1 ? 'Planned' : 'Planned'} />
+							<TripsStatCard emoji='🌍' value={countryCount} label={countryCount === 1 ? 'Country' : 'Countries'} />
+						</>
+					) : (
+						<>
+							<TripsStatCard emoji='✈️' value={savedCount} label={savedCount === 1 ? 'Trip' : 'Trips'} />
+							<TripsStatCard emoji='🌍' value={countryCount} label={countryCount === 1 ? 'Country' : 'Countries'} />
+							<TripsStatCard emoji='📷' value={photoCount} label='Photos' />
+						</>
+					)}
 				</View>
-			) : null}
+			)}
 		</PageHeader>
 	);
 }

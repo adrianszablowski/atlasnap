@@ -13,8 +13,8 @@ export interface Response<T> {
 export type SfSystemImageIcon = NonNullable<ComponentProps<typeof Button>['systemImage']>;
 
 export type AuthErrorReason = 'email_taken' | 'weak_password';
-
 export type Gender = 'male' | 'female';
+export type AvatarPool = 'pool_a' | 'pool_b';
 
 // export type UserData = Maybe<Tables<'users'> & { email: string }>; // TODO: Uncomment this when the database is ready
 export type UserData = [];
