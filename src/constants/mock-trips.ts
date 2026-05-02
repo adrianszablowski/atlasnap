@@ -16,8 +16,8 @@ export const MOCK_TRIPS: MockTrip[] = [
 		photos: [p('1-1', 'rome-forum'), p('1-2', 'rome-colosseum'), p('1-3', 'rome-trevi')],
 		coverPhoto: p('1-1', 'rome-forum'),
 		participants: [
-			{ id: 'f1', initials: 'AK', color: '#2F80ED', status: 'confirmed' },
-			{ id: 'f2', initials: 'MC', color: '#FF6B5A', status: 'confirmed' },
+			{ id: 'f1', name: 'Emma Wilson', gender: 'female', avatarIndex: 0, status: 'confirmed' },
+			{ id: 'f2', name: 'Marco Rossi', gender: 'male', avatarIndex: 0, status: 'confirmed' },
 		],
 	},
 	{
@@ -32,7 +32,7 @@ export const MOCK_TRIPS: MockTrip[] = [
 		note: 'Tram 28 through the old city. Pastéis de nata still warm from the bakery. Views from the castle were worth every step.',
 		photos: [p('2-1', 'lisbon-tram'), p('2-2', 'lisbon-alfama'), p('2-3', 'lisbon-belem')],
 		coverPhoto: p('2-1', 'lisbon-tram'),
-		participants: [{ id: 'f3', initials: 'JW', color: '#35C759', status: 'confirmed' }],
+		participants: [{ id: 'f3', name: 'Jake Thompson', gender: 'male', avatarIndex: 2, status: 'confirmed' }],
 	},
 	{
 		id: '3',
@@ -47,9 +47,9 @@ export const MOCK_TRIPS: MockTrip[] = [
 		photos: [p('3-1', 'tokyo-shibuya'), p('3-2', 'tokyo-temple'), p('3-3', 'tokyo-night'), p('3-4', 'tokyo-street')],
 		coverPhoto: p('3-1', 'tokyo-shibuya'),
 		participants: [
-			{ id: 'f1', initials: 'AK', color: '#2F80ED', status: 'confirmed' },
-			{ id: 'f4', initials: 'SL', color: '#9B6DDB', status: 'confirmed' },
-			{ id: 'f5', initials: 'OP', color: '#F2A93B', status: 'confirmed' },
+			{ id: 'f1', name: 'Emma Wilson', gender: 'female', avatarIndex: 0, status: 'confirmed' },
+			{ id: 'f4', name: 'Sophia Chen', gender: 'female', avatarIndex: 3, status: 'confirmed' },
+			{ id: 'f5', name: 'Lucas Müller', gender: 'male', avatarIndex: 5, status: 'confirmed' },
 		],
 	},
 	{
@@ -79,8 +79,8 @@ export const MOCK_TRIPS: MockTrip[] = [
 		photos: [p('5-1', 'nyc-central-park'), p('5-2', 'nyc-brooklyn'), p('5-3', 'nyc-times-square')],
 		coverPhoto: p('5-1', 'nyc-central-park'),
 		participants: [
-			{ id: 'f2', initials: 'MC', color: '#FF6B5A', status: 'confirmed' },
-			{ id: 'f3', initials: 'JW', color: '#35C759', status: 'confirmed' },
+			{ id: 'f2', name: 'Marco Rossi', gender: 'male', avatarIndex: 0, status: 'confirmed' },
+			{ id: 'f3', name: 'Jake Thompson', gender: 'male', avatarIndex: 2, status: 'confirmed' },
 		],
 	},
 ];

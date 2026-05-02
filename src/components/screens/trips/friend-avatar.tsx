@@ -1,6 +1,8 @@
-import type { TripParticipant } from '@/types/trip';
+import { getAvatarSource } from '@/constants/mock-user-profile';
 import { useTheme } from '@/theme/use-theme';
-import { StyleSheet, Text, View } from 'react-native';
+import type { TripParticipant } from '@/types/trip';
+import { Image } from 'expo-image';
+import { StyleSheet, View } from 'react-native';
 
 interface FriendAvatarProps {
 	friend: TripParticipant;
@@ -10,7 +12,7 @@ interface FriendAvatarProps {
 
 export function FriendAvatar({ friend, size = 30, stackOffset = 0 }: Readonly<FriendAvatarProps>) {
 	const theme = useTheme();
-	const fontSize = Math.round(size * 0.34);
+	const avatarSource = getAvatarSource(friend.gender, friend.avatarIndex);
 
 	return (
 		<View
@@ -20,26 +22,21 @@ export function FriendAvatar({ friend, size = 30, stackOffset = 0 }: Readonly<Fr
 					width: size,
 					height: size,
 					borderRadius: size / 2,
-					backgroundColor: friend.color,
 					borderColor: theme.background0,
 					marginLeft: stackOffset,
 					opacity: friend.status === 'pending' ? 0.55 : 1,
+					backgroundColor: theme.background200,
 				},
 			]}
 		>
-			<Text style={[styles.initials, { fontSize, color: theme.background0 }]}>{friend.initials}</Text>
+			<Image source={avatarSource} style={{ width: size, height: size }} contentFit='cover' />
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
 	avatar: {
-		alignItems: 'center',
-		justifyContent: 'center',
+		overflow: 'hidden',
 		borderWidth: 2.5,
-	},
-	initials: {
-		fontWeight: '700',
-		letterSpacing: 0.2,
 	},
 });

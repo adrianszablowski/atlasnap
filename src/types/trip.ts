@@ -1,3 +1,5 @@
+import type { Gender } from './types';
+
 export interface TripPhoto {
 	id: string;
 	url: string;
@@ -7,8 +9,9 @@ export type ParticipantStatus = 'pending' | 'confirmed' | 'declined';
 
 export interface TripParticipant {
 	id: string;
-	initials: string;
-	color: string;
+	name: string;
+	gender: Gender;
+	avatarIndex: number;
 	status: ParticipantStatus;
 }
 
