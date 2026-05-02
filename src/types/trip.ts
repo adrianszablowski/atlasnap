@@ -28,6 +28,8 @@ export interface MockTrip {
 	photos: TripPhoto[];
 	coverPhoto?: TripPhoto;
 	participants: TripParticipant[];
+	latitude: number;
+	longitude: number;
 }
 
 export interface TripSection {

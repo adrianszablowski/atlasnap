@@ -19,6 +19,8 @@ export const MOCK_TRIPS: MockTrip[] = [
 			{ id: 'f1', name: 'Emma Wilson', gender: 'female', avatarIndex: 0, status: 'confirmed' },
 			{ id: 'f2', name: 'Marco Rossi', gender: 'male', avatarIndex: 0, status: 'confirmed' },
 		],
+		latitude: 41.8902,
+		longitude: 12.4922,
 	},
 	{
 		id: '2',
@@ -33,6 +35,8 @@ export const MOCK_TRIPS: MockTrip[] = [
 		photos: [p('2-1', 'lisbon-tram'), p('2-2', 'lisbon-alfama'), p('2-3', 'lisbon-belem')],
 		coverPhoto: p('2-1', 'lisbon-tram'),
 		participants: [{ id: 'f3', name: 'Jake Thompson', gender: 'male', avatarIndex: 2, status: 'confirmed' }],
+		latitude: 38.7223,
+		longitude: -9.1393,
 	},
 	{
 		id: '3',
@@ -51,6 +55,8 @@ export const MOCK_TRIPS: MockTrip[] = [
 			{ id: 'f4', name: 'Sophia Chen', gender: 'female', avatarIndex: 3, status: 'confirmed' },
 			{ id: 'f5', name: 'Lucas Müller', gender: 'male', avatarIndex: 5, status: 'confirmed' },
 		],
+		latitude: 35.6762,
+		longitude: 139.6503,
 	},
 	{
 		id: '4',
@@ -65,6 +71,8 @@ export const MOCK_TRIPS: MockTrip[] = [
 		photos: [p('4-1', 'barcelona-sagrada'), p('4-2', 'barcelona-beach')],
 		coverPhoto: p('4-1', 'barcelona-sagrada'),
 		participants: [],
+		latitude: 41.3874,
+		longitude: 2.1686,
 	},
 	{
 		id: '5',
@@ -82,5 +90,7 @@ export const MOCK_TRIPS: MockTrip[] = [
 			{ id: 'f2', name: 'Marco Rossi', gender: 'male', avatarIndex: 0, status: 'confirmed' },
 			{ id: 'f3', name: 'Jake Thompson', gender: 'male', avatarIndex: 2, status: 'confirmed' },
 		],
+		latitude: 40.7829,
+		longitude: -73.9654,
 	},
 ];
