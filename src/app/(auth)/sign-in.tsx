@@ -17,7 +17,7 @@ interface DestCardProps {
 
 function DestCard({ flag, city, country, delay }: Readonly<DestCardProps>) {
 	return (
-		<Animated.View entering={FadeIn.delay(delay).springify().damping(14)} style={styles.destCard}>
+		<Animated.View entering={FadeIn.delay(delay).springify()} style={styles.destCard}>
 			<Text style={styles.destFlag}>{flag}</Text>
 			<View>
 				<Text style={styles.destCity}>{city}</Text>
@@ -53,7 +53,8 @@ export default function SignInScreen() {
 					<View style={styles.destRow}>
 						<DestCard flag='🗼' city='Paris' country='France' delay={300} />
 						<DestCard flag='🌊' city='Bali' country='Indonesia' delay={450} />
-						<Animated.View entering={FadeIn.delay(600).springify().damping(14)} style={styles.moreCard}>
+						<DestCard flag='🌸' city='Tokyo' country='Japan' delay={600} />
+						<Animated.View entering={FadeIn.delay(750).springify()} style={styles.moreCard}>
 							<Text style={styles.moreText}>+195{'\n'}countries</Text>
 						</Animated.View>
 					</View>
