@@ -9,5 +9,6 @@ declare namespace NodeJS {
 		EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: string;
 		EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID: string;
 		GOOGLE_MAPS_API_KEY: string;
+		GEOAPIFY_KEY: string;
 	}
 }
