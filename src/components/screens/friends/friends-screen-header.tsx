@@ -2,7 +2,7 @@ import { FriendCodeCard } from '@/components/screens/friends/friend-code-card';
 import { FriendSegmentControl } from '@/components/screens/friends/friend-segment-control';
 import { IconButton } from '@/components/ui/icon-button';
 import { PageHeader } from '@/components/ui/page-header';
-import type { FriendsTab } from '@/types/friend';
+import type { FriendsTab } from '@/types/types';
 import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 

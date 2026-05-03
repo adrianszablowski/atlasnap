@@ -1,4 +1,4 @@
-import type { TimelineItem, TimelineItemType } from '@/types/trip';
+import type { TimelineItem, TimelineItemType } from '@/types/types';
 import { differenceInCalendarDays, format, parseISO, startOfDay } from 'date-fns';
 import filter from 'lodash/filter';
 import groupBy from 'lodash/groupBy';
@@ -20,11 +20,11 @@ export function isTimelineItemTypeEligibleForCostHint(type: TimelineItemType): b
 
 export function sortTimelineItems(items: TimelineItem[]): TimelineItem[] {
 	const timed = sortBy(
-		filter(items, (item) => !!item.startsAt),
-		'startsAt',
+		filter(items, (item) => !!item.starts_at),
+		'starts_at',
 	);
 
-	const untimed = filter(items, (item) => !item.startsAt);
+	const untimed = filter(items, (item) => !item.starts_at);
 
 	return [...timed, ...untimed];
 }
@@ -83,10 +83,10 @@ export function groupTimelineItemsByDay(
 	tripStartDate: string,
 ): { groups: TimelineDayGroup[]; unscheduled: TimelineItem[] } {
 	const tripStart = startOfDay(parseISO(tripStartDate));
-	const scheduled = filter(items, (item) => !!item.startsAt);
-	const unscheduled = filter(items, (item) => !item.startsAt);
+	const scheduled = filter(items, (item) => !!item.starts_at);
+	const unscheduled = filter(items, (item) => !item.starts_at);
 
-	const byDate = groupBy(scheduled, (item) => format(startOfDay(parseISO(item.startsAt!)), 'yyyy-MM-dd'));
+	const byDate = groupBy(scheduled, (item) => format(startOfDay(parseISO(item.starts_at!)), 'yyyy-MM-dd'));
 
 	const groups: TimelineDayGroup[] = map(Object.entries(byDate), ([dateKey, dayItems]) => {
 		const dayDate = parseISO(dateKey);
@@ -96,7 +96,7 @@ export function groupTimelineItemsByDay(
 			dayNumber,
 			dateKey,
 			dayLabel: format(dayDate, 'EEE, MMM d'),
-			items: sortBy(dayItems, 'startsAt'),
+			items: sortBy(dayItems, 'starts_at'),
 		};
 	});
 
@@ -104,16 +104,16 @@ export function groupTimelineItemsByDay(
 }
 
 export function calculateTripCosts(items: TimelineItem[], participantCount: number): CurrencyCostSummary[] {
-	const costItems: TimelineItem[] = filter(items, (item) => item.costAmount != null && !!item.costCurrency);
+	const costItems: TimelineItem[] = filter(items, (item) => item.cost_amount != null && !!item.cost_currency);
 
 	if (!costItems.length) return [];
 
-	const byCurrency = groupBy(costItems, 'costCurrency');
+	const byCurrency = groupBy(costItems, 'cost_currency');
 
 	return map<[string, TimelineItem[]], CurrencyCostSummary>(Object.entries(byCurrency), ([currency, currencyItems]) => {
-		const total = reduce(currencyItems, (sum: number, item: TimelineItem) => sum + (item.costAmount ?? 0), 0);
-		const splitItems: TimelineItem[] = filter(currencyItems, { splitType: 'split_equally' });
-		const splitTotal = reduce(splitItems, (sum: number, item: TimelineItem) => sum + (item.costAmount ?? 0), 0);
+		const total = reduce(currencyItems, (sum: number, item: TimelineItem) => sum + (item.cost_amount ?? 0), 0);
+		const splitItems: TimelineItem[] = filter(currencyItems, { split_type: 'split_equally' });
+		const splitTotal = reduce(splitItems, (sum: number, item: TimelineItem) => sum + (item.cost_amount ?? 0), 0);
 		const perPerson = participantCount > 0 && splitTotal > 0 ? Math.round(splitTotal / participantCount) : null;
 
 		return { currency, total, perPerson };

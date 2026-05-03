@@ -1,6 +1,6 @@
 import { getAvatarSource } from '@/constants/mock-user-profile';
 import { useTheme } from '@/theme/use-theme';
-import type { Friend } from '@/types/friend';
+import type { Friend } from '@/types/types';
 import { Image } from 'expo-image';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -12,14 +12,14 @@ export function FriendItem({ friend }: Readonly<FriendItemProps>) {
 	const theme = useTheme();
 
 	const tripsLabel =
-		friend.sharedTripsCount === 0
+		friend.shared_trips_count === 0
 			? 'No shared trips yet'
-			: friend.sharedTripsCount === 1
+			: friend.shared_trips_count === 1
 				? '1 trip together'
-				: `${friend.sharedTripsCount} trips together`;
+				: `${friend.shared_trips_count} trips together`;
 
 	const handlePress = () => {
-		Alert.alert(friend.name, friend.friendCode, [
+		Alert.alert(friend.name, friend.friend_code, [
 			{ text: 'View Trips Together', onPress: () => {} },
 			{ text: 'Remove Friend', style: 'destructive', onPress: () => {} },
 			{ text: 'Cancel', style: 'cancel' },
@@ -40,7 +40,7 @@ export function FriendItem({ friend }: Readonly<FriendItemProps>) {
 			]}
 		>
 			<Image
-				source={getAvatarSource(friend.gender, friend.avatarIndex)}
+				source={getAvatarSource(friend.gender, friend.avatar_index)}
 				style={[styles.avatar, { backgroundColor: theme.background200 }]}
 				contentFit='cover'
 			/>
@@ -48,7 +48,7 @@ export function FriendItem({ friend }: Readonly<FriendItemProps>) {
 				<Text style={[styles.name, { color: theme.typography900 }]} numberOfLines={1}>
 					{friend.name}
 				</Text>
-				<Text style={[styles.trips, { color: friend.sharedTripsCount > 0 ? theme.primary600 : theme.typography400 }]}>
+				<Text style={[styles.trips, { color: friend.shared_trips_count > 0 ? theme.primary600 : theme.typography400 }]}>
 					{tripsLabel}
 				</Text>
 			</View>

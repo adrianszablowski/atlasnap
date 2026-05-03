@@ -1,11 +1,13 @@
-import type { Gender, UserProfile } from '@/types/types';
+import type { Tables } from '../../database.types';
 
-export const MOCK_USER_PROFILE: UserProfile = {
+export const MOCK_USER_PROFILE: Tables<'users'> = {
 	id: 'u-001',
 	name: 'Adrian Szablowski',
-	userCode: '#A7K9-P3M2',
+	friend_code: '#A7K9-P3M2',
 	gender: 'male',
-	avatarIndex: 2,
+	avatar_index: 2,
+	created_at: '2024-01-01T00:00:00Z',
+	updated_at: '2024-01-01T00:00:00Z',
 };
 
 export const MALE_AVATARS = [
@@ -29,7 +31,7 @@ export const FEMALE_AVATARS = [
 	require('@/assets/avatars/micah/female/micah-1777721645566.png'),
 ];
 
-export function getAvatarSource(gender: Gender, avatarIndex: number) {
+export function getAvatarSource(gender: string, avatarIndex: number) {
 	const avatars = gender === 'male' ? MALE_AVATARS : FEMALE_AVATARS;
 
 	return avatars[avatarIndex] ?? avatars[0];

@@ -14,6 +14,11 @@ export default function Index() {
 					<Text>Trips</Text>
 				</Pressable>
 			</Link>
+			<Link href='/sign-in' asChild>
+				<Pressable>
+					<Text>Sign In</Text>
+				</Pressable>
+			</Link>
 		</SafeAreaView>
 	);
 }

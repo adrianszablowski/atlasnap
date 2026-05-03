@@ -2,9 +2,10 @@ import { MOCK_FOUND_USER } from '@/constants/mock-friends';
 import { getAvatarSource } from '@/constants/mock-user-profile';
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
-import type { FoundUser, SearchStatus } from '@/types/friend';
+import type { FoundUser, SearchStatus } from '@/types/types';
 import { Image } from 'expo-image';
 import { Stack, useRouter } from 'expo-router';
+import isNil from 'lodash/isNil';
 import startsWith from 'lodash/startsWith';
 import trim from 'lodash/trim';
 import { useState } from 'react';
@@ -114,7 +115,7 @@ export default function AddFriendScreen() {
 							},
 						]}
 					>
-						{status === 'loading' && foundUser === null ? (
+						{status === 'loading' && isNil(foundUser) ? (
 							<ActivityIndicator color={theme.background0} />
 						) : (
 							<Text style={[styles.searchBtnLabel, { color: canSearch ? theme.background0 : theme.typography400 }]}>
@@ -144,14 +145,14 @@ export default function AddFriendScreen() {
 							]}
 						>
 							<Image
-								source={getAvatarSource(foundUser.gender, foundUser.avatarIndex)}
+								source={getAvatarSource(foundUser.gender, foundUser.avatar_index)}
 								style={[styles.resultAvatar, { backgroundColor: theme.background200 }]}
 								contentFit='cover'
 							/>
 							<View style={styles.resultInfo}>
 								<Text style={[styles.resultName, { color: theme.typography950 }]}>{foundUser.name}</Text>
 								<Text selectable style={[styles.resultCode, { color: theme.typography400 }]}>
-									{foundUser.friendCode}
+									{foundUser.friend_code}
 								</Text>
 							</View>
 							{status === 'sent' && (

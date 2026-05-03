@@ -1,4 +1,4 @@
-import type { FoundUser, Friend, FriendRequest } from '@/types/friend';
+import type { FoundUser, Friend, FriendRequest } from '@/types/types';
 
 export const MOCK_MY_FRIEND_CODE = '#A7K9-P3M2';
 
@@ -6,42 +6,42 @@ export const mockFriends: Friend[] = [
 	{
 		id: '1',
 		name: 'Emma Wilson',
-		friendCode: '#E7K2-W9M4',
+		friend_code: '#E7K2-W9M4',
 		gender: 'female',
-		avatarIndex: 0,
-		sharedTripsCount: 4,
+		avatar_index: 0,
+		shared_trips_count: 4,
 	},
 	{
 		id: '2',
 		name: 'Marco Rossi',
-		friendCode: '#M3R7-C2X1',
+		friend_code: '#M3R7-C2X1',
 		gender: 'male',
-		avatarIndex: 0,
-		sharedTripsCount: 2,
+		avatar_index: 0,
+		shared_trips_count: 2,
 	},
 	{
 		id: '3',
 		name: 'Sophia Chen',
-		friendCode: '#S9C4-H6T8',
+		friend_code: '#S9C4-H6T8',
 		gender: 'female',
-		avatarIndex: 3,
-		sharedTripsCount: 6,
+		avatar_index: 3,
+		shared_trips_count: 6,
 	},
 	{
 		id: '4',
 		name: 'Lucas Müller',
-		friendCode: '#L2M8-U5K3',
+		friend_code: '#L2M8-U5K3',
 		gender: 'male',
-		avatarIndex: 5,
-		sharedTripsCount: 1,
+		avatar_index: 5,
+		shared_trips_count: 1,
 	},
 	{
 		id: '5',
 		name: 'Aisha Patel',
-		friendCode: '#A5P1-T7N9',
+		friend_code: '#A5P1-T7N9',
 		gender: 'female',
-		avatarIndex: 1,
-		sharedTripsCount: 3,
+		avatar_index: 1,
+		shared_trips_count: 3,
 	},
 ];
 
@@ -49,36 +49,36 @@ export const mockFriendRequests: FriendRequest[] = [
 	{
 		id: 'r1',
 		name: 'Jake Thompson',
-		friendCode: '#J8T3-K1P6',
+		friend_code: '#J8T3-K1P6',
 		gender: 'male',
-		avatarIndex: 2,
+		avatar_index: 2,
 		direction: 'incoming',
-		sentAt: '2024-01-15',
+		sent_at: '2024-01-15',
 	},
 	{
 		id: 'r2',
 		name: 'Priya Kumar',
-		friendCode: '#P4K9-R2M7',
+		friend_code: '#P4K9-R2M7',
 		gender: 'female',
-		avatarIndex: 4,
+		avatar_index: 4,
 		direction: 'incoming',
-		sentAt: '2024-01-14',
+		sent_at: '2024-01-14',
 	},
 	{
 		id: 'r3',
 		name: 'Tom Hansen',
-		friendCode: '#T6H2-A8N4',
+		friend_code: '#T6H2-A8N4',
 		gender: 'male',
-		avatarIndex: 7,
+		avatar_index: 7,
 		direction: 'outgoing',
-		sentAt: '2024-01-12',
+		sent_at: '2024-01-12',
 	},
 ];
 
 export const MOCK_FOUND_USER: FoundUser = {
 	id: 'found1',
 	name: 'Alex Rivera',
-	friendCode: '#A7X4-R9K2',
+	friend_code: '#A7X4-R9K2',
 	gender: 'male',
-	avatarIndex: 6,
+	avatar_index: 6,
 };

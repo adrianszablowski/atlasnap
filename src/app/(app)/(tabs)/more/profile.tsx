@@ -15,7 +15,7 @@ export default function ProfileScreen() {
 	const theme = useTheme();
 	const router = useRouter();
 	const [selectedGender, setSelectedGender] = useState<Gender>(MOCK_USER_PROFILE.gender);
-	const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(MOCK_USER_PROFILE.avatarIndex);
+	const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(MOCK_USER_PROFILE.avatar_index);
 
 	const avatars = selectedGender === 'male' ? MALE_AVATARS : FEMALE_AVATARS;
 	const avatarSource = getAvatarSource(selectedGender, selectedAvatarIndex);
@@ -26,7 +26,7 @@ export default function ProfileScreen() {
 	};
 
 	const handleCopyUserCode = async () => {
-		await Clipboard.setStringAsync(MOCK_USER_PROFILE.userCode);
+		await Clipboard.setStringAsync(MOCK_USER_PROFILE.friend_code);
 
 		Alert.alert('Copied', 'Your friend code has been copied to clipboard.');
 	};
@@ -85,7 +85,7 @@ export default function ProfileScreen() {
 						style={({ pressed }) => [styles.userCodeRow, { opacity: pressed ? 0.6 : 1 }]}
 					>
 						<Text selectable style={[styles.userCode, { color: theme.typography400 }]}>
-							{MOCK_USER_PROFILE.userCode}
+							{MOCK_USER_PROFILE.friend_code}
 						</Text>
 						<Image source='sf:doc.on.doc' style={styles.copyIcon} tintColor={theme.typography300} />
 					</Pressable>
@@ -123,7 +123,7 @@ export default function ProfileScreen() {
 						icon='number'
 						iconBackground={theme.typography500}
 						label='Friend Code'
-						value={MOCK_USER_PROFILE.userCode}
+						value={MOCK_USER_PROFILE.friend_code}
 						valueSelectable
 						showChevron={false}
 						onPress={handleCopyUserCode}

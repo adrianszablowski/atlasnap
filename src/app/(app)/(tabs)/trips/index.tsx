@@ -5,7 +5,7 @@ import { TripsScreenHeader } from '@/components/screens/trips/trips-screen-heade
 import { TripsYearHeader } from '@/components/screens/trips/trips-year-header';
 import { MOCK_TRIPS } from '@/constants/mock-trips';
 import { useTheme } from '@/theme/use-theme';
-import type { MockTrip, TripFilter as TripFilterType } from '@/types/trip';
+import type { MockTrip, TripFilter } from '@/types/types';
 import { filterTripsByStatus, getMockStats, groupTripsByYear } from '@/utils/trips';
 import { useState } from 'react';
 import { SectionList, StyleSheet, View } from 'react-native';
@@ -15,7 +15,7 @@ const allStats = getMockStats(MOCK_TRIPS);
 
 export default function TripsScreen() {
 	const theme = useTheme();
-	const [activeFilter, setActiveFilter] = useState<TripFilterType>('all');
+	const [activeFilter, setActiveFilter] = useState<TripFilter>('all');
 
 	const filteredTrips = filterTripsByStatus(MOCK_TRIPS, activeFilter);
 	const sections = groupTripsByYear(filteredTrips);

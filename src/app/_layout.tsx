@@ -5,6 +5,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
 
 const queryClient = new QueryClient({
@@ -46,6 +47,7 @@ function ThemedStack() {
 			<Stack.Screen name='(auth)' />
 			<Stack.Screen name='(app)' />
 			<Stack.Screen name='+not-found' />
+			<StatusBar barStyle='default' />
 		</Stack>
 	);
 }

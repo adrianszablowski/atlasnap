@@ -1,4 +1,4 @@
-import type { MockTrip, TripFilter, TripSection } from '@/types/trip';
+import type { MockTrip, TripFilter, TripSection } from '@/types/types';
 import { parseISO } from 'date-fns';
 import filter from 'lodash/filter';
 import groupBy from 'lodash/groupBy';

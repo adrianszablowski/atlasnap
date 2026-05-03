@@ -1,53 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { Response, UserData } from '@/types/types';
 
-export const checkAuthenticatedUser = async () => {
-	try {
-		const { data: userData, error: authError } = await supabase.auth.getUser();
-
-		if (authError || !userData.user) {
-			return {
-				success: false,
-				error: {
-					code: authError?.code,
-					message: 'Please sign in to continue',
-				},
-			};
-		}
-
-		const { data: userInfo, error: userError } = await supabase
-			.from('users')
-			.select('role')
-			.eq('id', userData.user.id)
-			.single();
-
-		if (userError || !userInfo) {
-			return {
-				success: false,
-				error: {
-					code: 'unauthorized',
-					message: "We couldn't verify your account. Please try signing in again",
-				},
-			};
-		}
-
-		return {
-			success: true,
-			user: userData.user,
-			supabase,
-		};
-	} catch (error) {
-		console.error(error);
-
-		return {
-			success: false,
-			error: {
-				message: 'Something went wrong. Please try again',
-			},
-		};
-	}
-};
-
 export async function getCurrentUser(): Promise<Response<UserData>> {
 	try {
 		const { data, error: authError } = await supabase.auth.getUser();
@@ -82,15 +35,10 @@ export async function getCurrentUser(): Promise<Response<UserData>> {
 			};
 		}
 
-		const userWithEmail: UserData = {
-			...userData,
-			email: data.user.email || '',
-		};
-
 		return {
 			success: true,
 			message: 'Profile loaded successfully',
-			data: userWithEmail,
+			data: userData,
 		};
 	} catch (error) {
 		console.error(error);

@@ -1,6 +1,6 @@
 import { getAvatarSource } from '@/constants/mock-user-profile';
 import { useTheme } from '@/theme/use-theme';
-import type { TripParticipant } from '@/types/trip';
+import type { TripParticipant } from '@/types/types';
 import { Image } from 'expo-image';
 import { StyleSheet, View } from 'react-native';
 
@@ -12,7 +12,8 @@ interface FriendAvatarProps {
 
 export function FriendAvatar({ friend, size = 30, stackOffset = 0 }: Readonly<FriendAvatarProps>) {
 	const theme = useTheme();
-	const avatarSource = getAvatarSource(friend.gender, friend.avatarIndex);
+
+	const avatarSource = getAvatarSource(friend.gender, friend.avatar_index);
 
 	return (
 		<View

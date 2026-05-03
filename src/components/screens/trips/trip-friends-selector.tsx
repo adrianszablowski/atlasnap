@@ -35,7 +35,7 @@ export function TripFriendsSelector({ selectedIds, onChange }: Readonly<TripFrie
 			{map(mockFriends, (friend, index) => {
 				const isLast = index === mockFriends.length - 1;
 				const selected = includes(selectedIds, friend.id);
-				const avatarSource = getAvatarSource(friend.gender, friend.avatarIndex);
+				const avatarSource = getAvatarSource(friend.gender, friend.avatar_index);
 
 				return (
 					<Pressable

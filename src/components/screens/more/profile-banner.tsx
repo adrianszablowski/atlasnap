@@ -1,17 +1,17 @@
 import { getAvatarSource } from '@/constants/mock-user-profile';
 import { useTheme } from '@/theme/use-theme';
-import type { UserProfile } from '@/types/types';
+import type { UserData } from '@/types/types';
 import { Image } from 'expo-image';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface ProfileBannerProps {
-	profile: UserProfile;
+	profile: NonNullable<UserData>;
 	onPress: () => void;
 }
 
 export function ProfileBanner({ profile, onPress }: Readonly<ProfileBannerProps>) {
 	const theme = useTheme();
-	const avatarSource = getAvatarSource(profile.gender, profile.avatarIndex);
+	const avatarSource = getAvatarSource(profile.gender, profile.avatar_index);
 
 	return (
 		<Pressable
@@ -33,7 +33,7 @@ export function ProfileBanner({ profile, onPress }: Readonly<ProfileBannerProps>
 				<Text style={[styles.name, { color: theme.typography900 }]} numberOfLines={1}>
 					{profile.name}
 				</Text>
-				<Text style={[styles.userCode, { color: theme.typography400 }]}>{profile.userCode}</Text>
+				<Text style={[styles.userCode, { color: theme.typography400 }]}>{profile.friend_code}</Text>
 				<View style={[styles.editPill, { backgroundColor: theme.primary50, borderColor: theme.primary200 }]}>
 					<Image source='sf:pencil' style={styles.editIcon} tintColor={theme.primary600} />
 					<Text style={[styles.editLabel, { color: theme.primary600 }]}>Edit Profile</Text>

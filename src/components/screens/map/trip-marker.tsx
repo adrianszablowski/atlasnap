@@ -1,6 +1,6 @@
 import { getAvatarSource } from '@/constants/mock-user-profile';
 import { useTheme } from '@/theme/use-theme';
-import type { MockTrip, TripParticipant } from '@/types/trip';
+import type { MockTrip, TripParticipant } from '@/types/types';
 import { Image } from 'expo-image';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
@@ -75,7 +75,7 @@ function AvatarRow({
 					}}
 				>
 					<Image
-						source={getAvatarSource(p.gender, p.avatarIndex)}
+						source={getAvatarSource(p.gender, p.avatar_index)}
 						style={{ width: avatarSize, height: avatarSize }}
 						contentFit='cover'
 					/>

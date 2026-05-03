@@ -32,7 +32,7 @@ export function UserProvider({
 	};
 
 	const value: UserContextType = {
-		userData: user || [], // TODO: Delete array when the database is ready
+		userData: user ?? null,
 		isLoading,
 		error,
 		isAuthenticated,

@@ -7,7 +7,7 @@ import {
 } from '@/schemas';
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
-import type { TimelineItemType } from '@/types/trip';
+import type { TimelineItemType } from '@/types/types';
 import { getTimelineItemColor, getTimelineItemEmoji } from '@/utils/timeline';
 import { DatePicker, Host } from '@expo/ui/swift-ui';
 import { datePickerStyle } from '@expo/ui/swift-ui/modifiers';

@@ -1,5 +1,5 @@
 import { useTheme } from '@/theme/use-theme';
-import type { TimelineItem } from '@/types/trip';
+import type { TimelineItem } from '@/types/types';
 import { calculateTripCosts } from '@/utils/timeline';
 import isNil from 'lodash/isNil';
 import map from 'lodash/map';

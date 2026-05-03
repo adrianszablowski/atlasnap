@@ -7,7 +7,7 @@ import { PaginationDots } from '@/components/ui/pagination-dots';
 import { MOCK_TRIPS } from '@/constants/mock-trips';
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
-import type { TripPhoto } from '@/types/trip';
+import type { TripPhoto } from '@/types/types';
 import { formatDateRange, formatDurationDaysLabel, formatTimeAgo, getDurationDays } from '@/utils/date-range';
 import { isPast, parseISO } from 'date-fns';
 import { useLocalSearchParams, useRouter } from 'expo-router';

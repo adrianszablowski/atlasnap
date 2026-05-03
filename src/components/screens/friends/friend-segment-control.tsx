@@ -1,5 +1,5 @@
 import { useTheme } from '@/theme/use-theme';
-import type { FriendsTab } from '@/types/friend';
+import type { FriendsTab } from '@/types/types';
 import map from 'lodash/map';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 

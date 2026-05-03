@@ -1,7 +1,7 @@
 import { TripImage } from '@/components/screens/trips/trip-image';
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
-import type { MockTrip } from '@/types/trip';
+import type { MockTrip } from '@/types/types';
 import { formatDateRange, formatDurationDaysLabel } from '@/utils/date-range';
 import { Button, ContextMenu, Host } from '@expo/ui/swift-ui';
 import { useRouter } from 'expo-router';

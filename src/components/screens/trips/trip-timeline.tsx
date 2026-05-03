@@ -1,6 +1,6 @@
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
-import type { TimelineItem } from '@/types/trip';
+import type { TimelineItem } from '@/types/types';
 import { formatTimeForUser } from '@/utils/date-display';
 import type { TimelineDayGroup } from '@/utils/timeline';
 import {
@@ -28,7 +28,7 @@ function TimelineItemRow({ item, isLast }: Readonly<TimelineItemRowProps>) {
 	const theme = useTheme();
 	const color = getTimelineItemColor(item.type, theme);
 	const emoji = getTimelineItemEmoji(item.type);
-	const hasCostRow = !isNil(item.costAmount) && Boolean(item.costCurrency);
+	const hasCostRow = !isNil(item.cost_amount) && Boolean(item.cost_currency);
 	const showCostHint = !hasCostRow && isTimelineItemTypeEligibleForCostHint(item.type);
 
 	return (
@@ -39,8 +39,8 @@ function TimelineItemRow({ item, isLast }: Readonly<TimelineItemRowProps>) {
 			</View>
 			<View style={[styles.content, isLast && styles.contentLast]}>
 				<View style={styles.titleRow}>
-					{item.startsAt && (
-						<Text style={[styles.time, { color: theme.typography500 }]}>{formatTimeForUser(item.startsAt)}</Text>
+					{item.starts_at && (
+						<Text style={[styles.time, { color: theme.typography500 }]}>{formatTimeForUser(item.starts_at)}</Text>
 					)}
 					<View style={[styles.typePill, { backgroundColor: hexToRgba(color, 0.12) }]}>
 						<Text style={styles.typeEmoji}>{emoji}</Text>
@@ -55,9 +55,9 @@ function TimelineItemRow({ item, isLast }: Readonly<TimelineItemRowProps>) {
 				{hasCostRow ? (
 					<View style={styles.costRow}>
 						<Text style={[styles.cost, { color: theme.primary600 }]}>
-							{item.costAmount} {item.costCurrency}
+							{item.cost_amount} {item.cost_currency}
 						</Text>
-						{item.splitType === 'split_equally' && (
+						{item.split_type === 'split_equally' && (
 							<Text style={[styles.splitLabel, { color: theme.outline500 }]}>· split equally</Text>
 						)}
 					</View>

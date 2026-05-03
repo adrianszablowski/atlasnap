@@ -1,7 +1,7 @@
 import { getAvatarSource } from '@/constants/mock-user-profile';
 import { hexToRgba } from '@/theme/hex-to-rgba';
 import { useTheme } from '@/theme/use-theme';
-import type { FriendRequest } from '@/types/friend';
+import type { FriendRequest } from '@/types/types';
 import { Image } from 'expo-image';
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -56,7 +56,7 @@ export function FriendRequestItem({ request }: Readonly<FriendRequestItemProps>)
 			]}
 		>
 			<Image
-				source={getAvatarSource(request.gender, request.avatarIndex)}
+				source={getAvatarSource(request.gender, request.avatar_index)}
 				style={[styles.avatar, { backgroundColor: theme.background200 }]}
 				contentFit='cover'
 			/>

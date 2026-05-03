@@ -1,5 +1,5 @@
 import { useTheme } from '@/theme/use-theme';
-import type { TripFilter } from '@/types/trip';
+import type { TripFilter } from '@/types/types';
 import isNil from 'lodash/isNil';
 import map from 'lodash/map';
 import { Pressable, StyleSheet, Text, View } from 'react-native';

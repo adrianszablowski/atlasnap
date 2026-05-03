@@ -5,7 +5,7 @@ import { FriendsScreenHeader } from '@/components/screens/friends/friends-screen
 import { RequestsEmptyState } from '@/components/screens/friends/requests-empty-state';
 import { MOCK_MY_FRIEND_CODE, mockFriendRequests, mockFriends } from '@/constants/mock-friends';
 import { useTheme } from '@/theme/use-theme';
-import type { Friend, FriendRequest, FriendsTab } from '@/types/friend';
+import type { Friend, FriendRequest, FriendsTab } from '@/types/types';
 import filter from 'lodash/filter';
 import { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
