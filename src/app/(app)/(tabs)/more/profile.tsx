@@ -28,7 +28,7 @@ export default function ProfileScreen() {
 	const handleCopyUserCode = async () => {
 		await Clipboard.setStringAsync(MOCK_USER_PROFILE.userCode);
 
-		Alert.alert('Copied', 'Your user ID has been copied to clipboard.');
+		Alert.alert('Copied', 'Your friend code has been copied to clipboard.');
 	};
 
 	return (
@@ -72,7 +72,6 @@ export default function ProfileScreen() {
 							styles.avatarContainer,
 							{
 								backgroundColor: theme.background200,
-								shadowColor: theme.typography900,
 								borderColor: theme.cardBorder,
 							},
 						]}
@@ -123,7 +122,7 @@ export default function ProfileScreen() {
 					<MoreRow
 						icon='number'
 						iconBackground={theme.typography500}
-						label='User ID'
+						label='Friend Code'
 						value={MOCK_USER_PROFILE.userCode}
 						valueSelectable
 						showChevron={false}
@@ -155,10 +154,7 @@ const styles = StyleSheet.create({
 		borderRadius: 55,
 		overflow: 'hidden',
 		borderWidth: 3,
-		shadowOffset: { width: 0, height: 6 },
-		shadowOpacity: 0.12,
-		shadowRadius: 16,
-		elevation: 6,
+		boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
 		marginBottom: 4,
 	},
 	avatar: {

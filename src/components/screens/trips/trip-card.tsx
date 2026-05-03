@@ -24,7 +24,6 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 	const durationLabel = formatDurationDaysLabel(trip.startDate, trip.endDate);
 	const displayParticipants = filter(trip.participants, { status: 'confirmed' });
 	const participantCount = displayParticipants.length;
-	const timelineCount = trip.timelineItems?.length ?? 0;
 
 	const participantsLabel =
 		participantCount === 0
@@ -33,7 +32,7 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 				? 'With 1 friend'
 				: `With ${participantCount} friends`;
 
-	const coverUrl = trip.coverPhoto?.url ?? head(trip.photos)?.url;
+	const coverUrl = !isPlanned ? (trip.coverPhoto?.url ?? head(trip.photos)?.url) : undefined;
 
 	const handleDeleteTrip = () => {
 		Alert.alert('Delete Trip', 'Are you sure you want to delete this trip?', [
@@ -58,37 +57,41 @@ export function TripCard({ trip }: Readonly<TripCardProps>) {
 							},
 						]}
 					>
-						<View style={styles.cover}>
-							<TripImage photoUrl={coverUrl} style={StyleSheet.absoluteFill} />
-							{isPlanned && !coverUrl && (
-								<View
-									style={[
-										StyleSheet.absoluteFill,
-										styles.plannedCoverOverlay,
-										{ backgroundColor: hexToRgba(theme.primary500, 0.08) },
-									]}
-								/>
-							)}
-							<View style={[styles.durationBadge, { backgroundColor: hexToRgba(theme.background0, 0.93) }]}>
-								<Text style={[styles.durationText, { color: theme.typography800 }]}>{durationLabel}</Text>
-							</View>
-							{isPlanned ? (
-								<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.primary500, 0.88) }]}>
-									<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>
-										{timelineCount > 0 ? `📋 ${timelineCount}` : '🗓️ Planning'}
-									</Text>
+						{isPlanned ? (
+							<View style={[styles.plannedHero, { backgroundColor: theme.primary50 }]}>
+								<Text style={styles.plannedHeroFlag}>{trip.flag}</Text>
+								<Text style={[styles.plannedHeroCity, { color: theme.primary900 }]}>{trip.city}</Text>
+								<Text style={[styles.plannedHeroCountry, { color: theme.primary600 }]}>{trip.country}</Text>
+								<View style={styles.plannedHeroBadgeRow}>
+									<View style={[styles.plannedHeroBadge, { backgroundColor: hexToRgba(theme.primary500, 0.15) }]}>
+										<Text style={[styles.plannedHeroBadgeText, { color: theme.primary700 }]}>✈️ Planning</Text>
+									</View>
+									<View style={[styles.plannedHeroBadge, { backgroundColor: hexToRgba(theme.primary500, 0.1) }]}>
+										<Text style={[styles.plannedHeroBadgeText, { color: theme.primary600 }]}>
+											{formatDateRange(trip.startDate, trip.endDate)}
+										</Text>
+									</View>
+									<View style={[styles.plannedHeroBadge, { backgroundColor: hexToRgba(theme.primary500, 0.1) }]}>
+										<Text style={[styles.plannedHeroBadgeText, { color: theme.primary600 }]}>{durationLabel}</Text>
+									</View>
 								</View>
-							) : (
+							</View>
+						) : (
+							<View style={styles.cover}>
+								<TripImage photoUrl={coverUrl} style={StyleSheet.absoluteFill} />
+								<View style={[styles.durationBadge, { backgroundColor: hexToRgba(theme.background0, 0.93) }]}>
+									<Text style={[styles.durationText, { color: theme.typography800 }]}>{durationLabel}</Text>
+								</View>
 								<View style={[styles.photoBadge, { backgroundColor: hexToRgba(theme.typography950, 0.34) }]}>
 									<Text style={[styles.photoBadgeText, { color: theme.background0 }]}>📷 {trip.photoCount}</Text>
 								</View>
-							)}
-							<View style={[styles.locationPill, { backgroundColor: hexToRgba(theme.background0, 0.95) }]}>
-								<Text style={[styles.locationPillText, { color: theme.typography900 }]}>
-									{trip.flag} {trip.city}, {trip.country}
-								</Text>
+								<View style={[styles.locationPill, { backgroundColor: hexToRgba(theme.background0, 0.95) }]}>
+									<Text style={[styles.locationPillText, { color: theme.typography900 }]}>
+										{trip.flag} {trip.city}, {trip.country}
+									</Text>
+								</View>
 							</View>
-						</View>
+						)}
 						<View style={styles.body}>
 							<View style={styles.titleRow}>
 								<Text style={[styles.title, { color: theme.typography900 }]} numberOfLines={1}>
@@ -170,8 +173,41 @@ const styles = StyleSheet.create({
 		height: 200,
 		overflow: 'hidden',
 	},
-	plannedCoverOverlay: {
-		zIndex: 1,
+	plannedHero: {
+		height: 200,
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: 4,
+		paddingHorizontal: 18,
+	},
+	plannedHeroFlag: {
+		fontSize: 44,
+		marginBottom: 2,
+	},
+	plannedHeroCity: {
+		fontSize: 22,
+		fontWeight: '800',
+		letterSpacing: -0.5,
+	},
+	plannedHeroCountry: {
+		fontSize: 14,
+		fontWeight: '600',
+	},
+	plannedHeroBadgeRow: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
+		gap: 6,
+		marginTop: 12,
+	},
+	plannedHeroBadge: {
+		paddingHorizontal: 10,
+		paddingVertical: 5,
+		borderRadius: 20,
+	},
+	plannedHeroBadgeText: {
+		fontSize: 12,
+		fontWeight: '700',
 	},
 	durationBadge: {
 		position: 'absolute',

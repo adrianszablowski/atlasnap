@@ -126,7 +126,16 @@ export default function MapScreen() {
 
 					if (!pos) return null;
 
-					return <OffScreenIndicator key={trip.id} x={pos.x} y={pos.y} angle={pos.angle} color={INDICATOR_COLOR} />;
+					return (
+						<OffScreenIndicator
+							key={trip.id}
+							x={pos.x}
+							y={pos.y}
+							angle={pos.angle}
+							color={INDICATOR_COLOR}
+							planned={trip.status === 'planned'}
+						/>
+					);
 				})}
 			</View>
 		</View>

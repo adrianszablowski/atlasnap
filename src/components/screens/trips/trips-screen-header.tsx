@@ -2,7 +2,7 @@ import { TripsStatCard } from '@/components/screens/trips/trips-stat-card';
 import { IconButton } from '@/components/ui/icon-button';
 import { PageHeader } from '@/components/ui/page-header';
 import { useRouter } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { ActionSheetIOS, Alert, Platform, StyleSheet, View } from 'react-native';
 
 interface TripsScreenHeaderProps {
 	savedCount: number;
@@ -21,6 +21,28 @@ export function TripsScreenHeader({
 
 	const totalCount = savedCount + plannedCount;
 
+	const handleAddTrip = () => {
+		if (Platform.OS === 'ios') {
+			ActionSheetIOS.showActionSheetWithOptions(
+				{
+					options: ['Cancel', 'Save a Past Trip', 'Plan a Trip'],
+					cancelButtonIndex: 0,
+					message: 'What would you like to do?',
+				},
+				(index) => {
+					if (index === 1) router.push('/trips/create');
+					if (index === 2) router.push('/trips/plan');
+				},
+			);
+		} else {
+			Alert.alert('Add Trip', 'What would you like to do?', [
+				{ text: 'Cancel', style: 'cancel' },
+				{ text: 'Save a Past Trip', onPress: () => router.push('/trips/create') },
+				{ text: 'Plan a Trip', onPress: () => router.push('/trips/plan') },
+			]);
+		}
+	};
+
 	const description =
 		totalCount === 0
 			? 'Start building your personal travel atlas'
@@ -32,9 +54,7 @@ export function TripsScreenHeader({
 		<PageHeader
 			title='Trips'
 			description={description}
-			rightAction={
-				<IconButton label='Add Trip' icon='plus' variant='prominent' onPress={() => router.push('/trips/create')} />
-			}
+			rightAction={<IconButton label='Add Trip' icon='plus' variant='prominent' onPress={handleAddTrip} />}
 		>
 			{totalCount > 0 && (
 				<View style={styles.statsRow}>

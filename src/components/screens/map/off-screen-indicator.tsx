@@ -6,11 +6,12 @@ interface OffScreenIndicatorProps {
 	y: number;
 	angle: number;
 	color: string;
+	planned?: boolean;
 }
 
 const SIZE = 28;
 
-export function OffScreenIndicator({ x, y, angle, color }: Readonly<OffScreenIndicatorProps>) {
+export function OffScreenIndicator({ x, y, angle, color, planned = false }: Readonly<OffScreenIndicatorProps>) {
 	return (
 		<Animated.View
 			entering={FadeIn.duration(220)}
@@ -22,11 +23,11 @@ export function OffScreenIndicator({ x, y, angle, color }: Readonly<OffScreenInd
 				width: SIZE,
 				height: SIZE,
 				borderRadius: SIZE / 2,
-				backgroundColor: color,
+				backgroundColor: planned ? 'white' : color,
 				alignItems: 'center',
 				justifyContent: 'center',
-				borderWidth: 2.5,
-				borderColor: 'white',
+				borderWidth: planned ? 3 : 2.5,
+				borderColor: planned ? color : 'white',
 				boxShadow: '0 2px 10px rgba(0,0,0,0.30)',
 				transform: [{ rotate: `${angle}deg` }],
 			}}
@@ -41,7 +42,7 @@ export function OffScreenIndicator({ x, y, angle, color }: Readonly<OffScreenInd
 					borderLeftWidth: 8,
 					borderTopColor: 'transparent',
 					borderBottomColor: 'transparent',
-					borderLeftColor: 'white',
+					borderLeftColor: planned ? color : 'white',
 				}}
 			/>
 		</Animated.View>

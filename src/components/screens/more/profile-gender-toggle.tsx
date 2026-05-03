@@ -25,16 +25,7 @@ export function ProfileGenderToggle({ selected, onChange }: Readonly<ProfileGend
 					<Pressable
 						key={gender}
 						onPress={() => onChange(gender)}
-						style={[
-							styles.option,
-							isSelected && [
-								styles.optionSelected,
-								{
-									backgroundColor: theme.background0,
-									shadowColor: theme.typography900,
-								},
-							],
-						]}
+						style={[styles.option, isSelected && [styles.optionSelected, { backgroundColor: theme.background0 }]]}
 					>
 						<Text style={styles.emoji}>{emoji}</Text>
 						<Text
@@ -71,10 +62,7 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 	optionSelected: {
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.08,
-		shadowRadius: 6,
-		elevation: 2,
+		boxShadow: '0 2px 6px rgba(0,0,0,0.08)',
 	},
 	emoji: {
 		fontSize: 16,

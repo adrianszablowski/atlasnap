@@ -5,7 +5,9 @@ export default function TripsLayout() {
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Screen name='index' />
 			<Stack.Screen name='create' />
+			<Stack.Screen name='plan' />
 			<Stack.Screen name='[tripId]/edit' />
+			<Stack.Screen name='[tripId]/plan-edit' />
 			<Stack.Screen name='[tripId]/details' options={{ presentation: 'modal' }} />
 		</Stack>
 	);

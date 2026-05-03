@@ -1,7 +1,7 @@
-import { TripForm } from '@/components/screens/trips/trip-form';
+import { PlanTripForm } from '@/components/screens/trips/plan-trip-form';
 import { MOCK_TRIPS } from '@/constants/mock-trips';
-import type { TripFormValues } from '@/schemas';
-import { editTripSchema } from '@/schemas';
+import type { PlanTripFormValues } from '@/schemas';
+import { planTripEditSchema } from '@/schemas';
 import { useTheme } from '@/theme/use-theme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
@@ -9,7 +9,7 @@ import find from 'lodash/find';
 import { useForm } from 'react-hook-form';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function EditTripScreen() {
+export default function EditPlanScreen() {
 	const theme = useTheme();
 	const router = useRouter();
 	const { tripId } = useLocalSearchParams<{ tripId: string }>();
@@ -19,10 +19,9 @@ export default function EditTripScreen() {
 	const {
 		control,
 		handleSubmit,
-		watch,
 		formState: { errors },
-	} = useForm<TripFormValues>({
-		resolver: zodResolver(editTripSchema),
+	} = useForm<PlanTripFormValues>({
+		resolver: zodResolver(planTripEditSchema),
 		defaultValues: trip
 			? {
 					title: trip.title,
@@ -32,8 +31,8 @@ export default function EditTripScreen() {
 					startDate: new Date(trip.startDate),
 					endDate: trip.endDate ? new Date(trip.endDate) : undefined,
 					note: trip.note ?? '',
-					photos: trip.photos,
 					participantIds: [],
+					timelineItems: [],
 				}
 			: {
 					title: '',
@@ -41,16 +40,15 @@ export default function EditTripScreen() {
 					country: '',
 					flag: '',
 					startDate: new Date(),
+					endDate: undefined,
 					note: '',
-					photos: [],
 					participantIds: [],
+					timelineItems: [],
 				},
 	});
 
-	const photos = watch('photos') ?? [];
-
-	const onSubmit = (data: TripFormValues) => {
-		console.log('Update trip:', tripId, data);
+	const onSubmit = (data: PlanTripFormValues) => {
+		console.log('Update plan:', tripId, data);
 	};
 
 	return (
@@ -58,7 +56,7 @@ export default function EditTripScreen() {
 			<Stack.Screen
 				options={{
 					headerShown: true,
-					title: 'Edit Trip',
+					title: 'Edit Plan',
 					headerBackVisible: false,
 					headerShadowVisible: false,
 					headerStyle: { backgroundColor: theme.background50 },
@@ -83,11 +81,11 @@ export default function EditTripScreen() {
 					),
 				}}
 			/>
-			<TripForm control={control} errors={errors} photos={photos} formKey={tripId} />
+			<PlanTripForm control={control} errors={errors} formKey={tripId} />
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	root: { flex: 1 },
+	root: { flex: 1, paddingBottom: 48 },
 });

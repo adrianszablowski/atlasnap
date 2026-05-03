@@ -1,23 +1,22 @@
-import { TripForm } from '@/components/screens/trips/trip-form';
-import type { TripFormValues } from '@/schemas';
-import { createTripSchema } from '@/schemas';
+import { PlanTripForm } from '@/components/screens/trips/plan-trip-form';
+import type { PlanTripFormValues } from '@/schemas';
+import { planTripSchema } from '@/schemas';
 import { useTheme } from '@/theme/use-theme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Stack, useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function CreateTripScreen() {
+export default function PlanTripScreen() {
 	const theme = useTheme();
 	const router = useRouter();
 
 	const {
 		control,
 		handleSubmit,
-		watch,
 		formState: { errors },
-	} = useForm<TripFormValues>({
-		resolver: zodResolver(createTripSchema),
+	} = useForm<PlanTripFormValues>({
+		resolver: zodResolver(planTripSchema),
 		defaultValues: {
 			title: '',
 			city: '',
@@ -26,15 +25,13 @@ export default function CreateTripScreen() {
 			startDate: new Date(),
 			endDate: undefined,
 			note: '',
-			photos: [],
 			participantIds: [],
+			timelineItems: [],
 		},
 	});
 
-	const photos = watch('photos') ?? [];
-
-	const onSubmit = (data: TripFormValues) => {
-		console.log('New trip:', data);
+	const onSubmit = (data: PlanTripFormValues) => {
+		console.log('New plan:', data);
 	};
 
 	return (
@@ -42,7 +39,7 @@ export default function CreateTripScreen() {
 			<Stack.Screen
 				options={{
 					headerShown: true,
-					title: 'New Trip',
+					title: 'Plan a Trip',
 					headerBackVisible: false,
 					headerShadowVisible: false,
 					headerStyle: { backgroundColor: theme.background50 },
@@ -67,11 +64,11 @@ export default function CreateTripScreen() {
 					),
 				}}
 			/>
-			<TripForm control={control} errors={errors} photos={photos} />
+			<PlanTripForm control={control} errors={errors} />
 		</View>
 	);
 }
 
 const styles = StyleSheet.create({
-	root: { flex: 1 },
+	root: { flex: 1, paddingBottom: 48 },
 });

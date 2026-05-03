@@ -1,14 +1,15 @@
+import { AddTimelineItemModal } from '@/components/screens/trips/add-timeline-item-modal';
+import { PlanItemRow } from '@/components/screens/trips/plan-item-row';
 import { TripFriendsSelector } from '@/components/screens/trips/trip-friends-selector';
-import type { TripFormValues } from '@/schemas';
-import { hexToRgba } from '@/theme/hex-to-rgba';
+import type { PlanTripFormValues, TimelineItemFormValues } from '@/schemas';
 import { useTheme } from '@/theme/use-theme';
 import { DatePicker, Host, TextField } from '@expo/ui/swift-ui';
 import { datePickerStyle, font, frame } from '@expo/ui/swift-ui/modifiers';
-import times from 'lodash/times';
+import map from 'lodash/map';
+import { useState } from 'react';
 import type { Control, FieldErrors } from 'react-hook-form';
-import { Controller } from 'react-hook-form';
+import { Controller, useFieldArray, useWatch } from 'react-hook-form';
 import {
-	Alert,
 	KeyboardAvoidingView,
 	Pressable,
 	ScrollView,
@@ -19,22 +20,34 @@ import {
 	useWindowDimensions,
 } from 'react-native';
 
-const MAX_PHOTOS = 10;
-const PHOTO_COLUMNS = 3;
-
-interface TripFormProps {
-	control: Control<TripFormValues>;
-	errors: FieldErrors<TripFormValues>;
-	photos: { id: string; url: string }[];
+interface PlanTripFormProps {
+	control: Control<PlanTripFormValues>;
+	errors: FieldErrors<PlanTripFormValues>;
 	formKey?: string | number;
 }
 
-export function TripForm({ control, errors, photos, formKey }: Readonly<TripFormProps>) {
+export function PlanTripForm({ control, errors, formKey }: Readonly<PlanTripFormProps>) {
 	const theme = useTheme();
+	const [addItemKey, setAddItemKey] = useState(0);
+	const [isAddingItem, setIsAddingItem] = useState(false);
 	const { width: screenWidth } = useWindowDimensions();
 
-	const photoSlotSize = Math.floor((screenWidth - 40 - PHOTO_COLUMNS * 10) / PHOTO_COLUMNS);
+	const startDate = useWatch({ control, name: 'startDate' });
+	const endDate = useWatch({ control, name: 'endDate' });
+
+	const { fields, append, remove } = useFieldArray({ control, name: 'timelineItems' });
+
 	const cityFieldWidth = screenWidth - 106;
+
+	const handleOpenAddItem = () => {
+		setAddItemKey((k) => k + 1);
+		setIsAddingItem(true);
+	};
+
+	const handleItemAdded = (item: TimelineItemFormValues) => {
+		append(item);
+		setIsAddingItem(false);
+	};
 
 	return (
 		<KeyboardAvoidingView style={styles.flex} behavior={process.env.EXPO_OS === 'ios' ? 'padding' : 'height'}>
@@ -52,7 +65,7 @@ export function TripForm({ control, errors, photos, formKey }: Readonly<TripForm
 						render={({ field: { value, onChange, onBlur } }) => (
 							<TextInput
 								style={[styles.titleInput, { color: theme.typography900 }]}
-								placeholder='Roman Holiday…'
+								placeholder='Summer in Santorini…'
 								placeholderTextColor={theme.outline200}
 								value={value}
 								onChangeText={onChange}
@@ -182,14 +195,48 @@ export function TripForm({ control, errors, photos, formKey }: Readonly<TripForm
 					/>
 				</View>
 				<View style={[styles.card, { backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }]}>
-					<Text style={[styles.sectionLabel, { color: theme.typography400 }]}>MEMORIES</Text>
+					<View style={styles.planHeader}>
+						<Text style={[styles.sectionLabel, { color: theme.typography400 }]}>TRIP PLAN</Text>
+						{fields.length > 0 && (
+							<Text style={[styles.planCount, { color: theme.typography400 }]}>
+								{fields.length} {fields.length === 1 ? 'item' : 'items'}
+							</Text>
+						)}
+					</View>
+					{fields.length === 0 ? (
+						<Pressable
+							onPress={handleOpenAddItem}
+							style={({ pressed }) => [styles.emptyPlan, { borderColor: theme.outline200, opacity: pressed ? 0.7 : 1 }]}
+						>
+							<Text style={styles.emptyPlanEmoji}>✈️</Text>
+							<Text style={[styles.emptyPlanTitle, { color: theme.typography600 }]}>Add your first plan item</Text>
+							<Text style={[styles.emptyPlanHint, { color: theme.typography400 }]}>
+								Flight, hotel, activity, restaurant…
+							</Text>
+						</Pressable>
+					) : (
+						<>
+							{map(fields, (field, index) => (
+								<PlanItemRow key={field.id} item={field} onRemove={() => remove(index)} />
+							))}
+							<Pressable
+								onPress={handleOpenAddItem}
+								style={({ pressed }) => [styles.addItemBtn, { opacity: pressed ? 0.7 : 1 }]}
+							>
+								<Text style={[styles.addItemBtnText, { color: theme.primary500 }]}>+ Add Item</Text>
+							</Pressable>
+						</>
+					)}
+				</View>
+				<View style={[styles.card, { backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }]}>
+					<Text style={[styles.sectionLabel, { color: theme.typography400 }]}>TRIP NOTES</Text>
 					<Controller
 						control={control}
 						name='note'
 						render={({ field: { value, onChange, onBlur } }) => (
 							<TextInput
 								style={[styles.noteInput, { color: theme.typography900 }]}
-								placeholder='Colosseum at sunset, best carbonara, wandering the Forum all day…'
+								placeholder='Ideas, things to pack, notes for the trip…'
 								placeholderTextColor={theme.outline300}
 								value={value}
 								onChangeText={onChange}
@@ -200,50 +247,16 @@ export function TripForm({ control, errors, photos, formKey }: Readonly<TripForm
 						)}
 					/>
 				</View>
-				<View style={styles.section}>
-					<View style={styles.photoHeader}>
-						<Text style={[styles.sectionLabel, { color: theme.typography400 }]}>PHOTOS</Text>
-						<Text style={[styles.photoCount, { color: theme.typography400 }]}>
-							{photos.length} / {MAX_PHOTOS}
-						</Text>
-					</View>
-					<Text style={[styles.photoHint, { color: theme.typography500 }]}>
-						First photo becomes the cover of your trip
-					</Text>
-					<View style={styles.photoGrid}>
-						{times(MAX_PHOTOS, (index) => {
-							const photo = photos[index];
-							const isCover = index === 0;
-							return (
-								<Pressable
-									key={index}
-									onPress={() => Alert.alert('Coming Soon', 'Photo upload will be available in a future update.')}
-									style={({ pressed }) => [
-										styles.photoSlot,
-										{
-											width: photoSlotSize,
-											height: photoSlotSize,
-											backgroundColor: isCover ? hexToRgba(theme.primary500, 0.06) : theme.background100,
-											borderColor: isCover ? theme.primary300 : theme.outline200,
-											opacity: pressed ? 0.7 : 1,
-										},
-									]}
-								>
-									{!photo && (
-										<View style={styles.photoSlotContent}>
-											<Text style={styles.photoEmoji}>{isCover ? '🖼️' : '📷'}</Text>
-											<Text style={[styles.photoSlotLabel, { color: isCover ? theme.primary500 : theme.outline400 }]}>
-												{isCover ? 'Cover' : 'Add'}
-											</Text>
-										</View>
-									)}
-								</Pressable>
-							);
-						})}
-					</View>
-				</View>
 				<View style={styles.bottomSpacer} />
 			</ScrollView>
+			<AddTimelineItemModal
+				key={addItemKey}
+				visible={isAddingItem}
+				tripStartDate={startDate}
+				tripEndDate={endDate}
+				onAdd={handleItemAdded}
+				onDismiss={() => setIsAddingItem(false)}
+			/>
 		</KeyboardAvoidingView>
 	);
 }
@@ -293,13 +306,29 @@ const styles = StyleSheet.create({
 		minHeight: 110,
 		marginTop: 12,
 	},
-	photoHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-	photoCount: { fontSize: 12, fontWeight: '600' },
-	photoHint: { fontSize: 13, fontWeight: '500', marginTop: -2 },
-	photoGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-	photoSlot: { borderRadius: 14, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-	photoSlotContent: { alignItems: 'center', gap: 4 },
-	photoEmoji: { fontSize: 20 },
-	photoSlotLabel: { fontSize: 11, fontWeight: '700' },
+	planHeader: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 12,
+	},
+	planCount: { fontSize: 12, fontWeight: '600' },
+	emptyPlan: {
+		borderRadius: 14,
+		borderWidth: 1.5,
+		borderStyle: 'dashed',
+		paddingVertical: 24,
+		alignItems: 'center',
+		gap: 4,
+		marginBottom: 8,
+	},
+	emptyPlanEmoji: { fontSize: 24, marginBottom: 4 },
+	emptyPlanTitle: { fontSize: 14, fontWeight: '700' },
+	emptyPlanHint: { fontSize: 12, fontWeight: '500' },
+	addItemBtn: {
+		paddingVertical: 12,
+		alignItems: 'center',
+	},
+	addItemBtnText: { fontSize: 14, fontWeight: '700' },
 	bottomSpacer: { height: 48 },
 });
